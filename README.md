@@ -1,4 +1,4 @@
-# networking-1006-
+# networking-1006
 INF1006 Computer Networks 2023/24 Trimester 2
 Network Application Project Proposal
 Group 19
