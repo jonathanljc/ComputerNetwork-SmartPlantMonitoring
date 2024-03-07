@@ -9,6 +9,7 @@ from collections import deque
 import numpy as np
 import RPi.GPIO as GPIO
 import threading
+#soil, ultrasonic, water pump
 
 class MQTTClient:
     def __init__(self, server, port):
