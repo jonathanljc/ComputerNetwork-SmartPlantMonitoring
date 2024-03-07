@@ -3,6 +3,7 @@
 #sudo systemctl enable pigpiod
 #sudo systemctl start pigpiod
 # to run script, python3 ultrasonic.py
+#hello
 import pigpio
 import time
 import statistics
