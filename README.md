@@ -24,6 +24,7 @@ Resources
 3x Raspberry Pi 4 Model B, 1x Router, Online documentation for Mosquitto MQTT, Grafana (Web Dashboard), Node-RED (No-Code Development), and InfluxDB (Database Storage)
 4x Sensors (UV Light, Temperature and Humidity, Ultrasonic, Moisture), 2x Motors (Water Pump, Light switch), Electrical Components (Breadboard, Wires, Resistors, etc.)
 Workload Distribution
+
 Client Team (Working with Sensors & Motors and Sending the Data):
 Jonathan Lim (2300923), Felix Chang (2301105), Darryl Ong (2301402)
 
