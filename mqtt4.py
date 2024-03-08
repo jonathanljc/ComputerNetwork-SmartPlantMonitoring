@@ -9,9 +9,9 @@ from collections import deque
 import numpy as np
 import RPi.GPIO as GPIO
 import threading
-import pigpio as pi
+import pigpio
 import statistics
-#ultrasonic
+#soil, ultrasonic, water pump
 
 class MQTTClient:
     def __init__(self, server, port):
@@ -40,16 +40,16 @@ class MQTTClient:
         # Set the GPIO pin to 17 for relay
         self.relay_pin = 17
         GPIO.setup(self.relay_pin, GPIO.OUT)
-        # Set the trigger pin to 11 for ultrasonic sensor
-        self.TRIG_PIN = 11
-        # Set the echo pin to 12 for ultrasonic sensor
-        self.ECHO_PIN = 12
-        # Set the sleep time to 1 second for ultrasonic sensor
-        self.SLEEP_TIME = 1
-        # Set the speed of sound to 34300 cm/s for ultrasonic sensor
-        self.SPEED_OF_SOUND = 34300 # in cm/s
-        # Set the number of readings to 10 for ultrasonic sensor
-        self.NUM_READINGS = 10
+        self.TRIG_PIN=11
+        self.ECHO_PIN=12
+        self.NUM_READINGS=10
+        self.SPEED_OF_SOUND=34300
+        self.SLEEP_TIME=1
+        self.pi=pigpio.pi()
+        self.pi.set_mode(self.TRIG_PIN,pigpio.OUTPUT)
+        self.pi.set_mode(self.ECHO_PIN,pigpio.INPUT)
+        self.pi.write(self.TRIG_PIN,0)
+        time.sleep(2)
 
     def on_connect(self, client, userdata, flags, reason_code, properties):
         print(f"Connected with result code {reason_code}")
@@ -123,63 +123,43 @@ class MQTTClient:
             GPIO.output(self.relay_pin, GPIO.LOW)
         else:
             print(f"Invalid state: {state}")
-            
+    
     def get_distance(self):
-        pi.write(self.TRIG_PIN, 1)
+        self.pi.write(self.TRIG_PIN,1)
         time.sleep(0.00001)
-        pi.write(self.TRIG_PIN, 0)
-        
-        start_time = time.time()
-        while pi.read(self.ECHO_PIN) == 0:
-            if time.time() - start_time > 1: # Timeout after 1 second
+        self.pi.write(self.TRIG_PIN,0)
+        start_time=time.time()
+        while self.pi.read(self.ECHO_PIN)==0:
+            if time.time()-start_time>1:
                 return None
-            
-        start_time = time.time()
-        while pi.read(self.ECHO_PIN) == 1:
-            if time.time() - start_time > 1: # Timeout after 1 second
-                return None
-        
-        stop_time = time.time()
-        
-        elapsed_time = stop_time - start_time
-        distance = (elapsed_time * self.SPEED_OF_SOUND) / 2
-        
+        stop_time=time.time()
+        start_time=time.time()
+        elapsed_time=stop_time-start_time
+        distance=(elapsed_time*self.SPEED_OF_SOUND)/2
         return distance
-            
-    def read_and_publish_distance(self, topic):
-        # Set pin modes
-        pi.set_mode(self.TRIG_PIN, pigpio.OUTPUT)
-        pi.set_mode(self.ECHO_PIN, pigpio.INPUT)
-        
-        # Reset trigger pin
-        pi.write(self.TRIG_PIN, 0)
-        time.sleep(2)
-        
-        try:
-            while True:
-                distances = [self.get_distance() for _ in range(self.NUM_READINGS)]
-                distances = [d for d in distances if d is not None]
-                if distances:
-                    median_distance = statistics.median(distances)
-                    print(f"Median Distance: {median_distance:.2f} cm")
-                    self.publish(topic, {'distance': "{:.2f}".format(median_distance)})
-                else:
-                    print("No valid readings")
-                time.sleep(self.SLEEP_TIME)
-        except KeyboardInterrupt:
-            print("Measurement stopped by User")
-            pi.stop()
-        
-        
 
+    def read_and_publish_distance(self, topic):
+        distances = [self.get_distance() for _ in range(self.NUM_READINGS)]
+        distances = [d for d in distances if d is not None]
+        if distances:
+            median_distance = statistics.median(distances)
+            print(f"Median Distance: {median_distance:.2f} cm")
+            self.publish(topic, {'distance': "{:.2f}".format(median_distance)})
+        else:
+            print("No valid readings")
 if __name__ == "__main__":
     # Usage
     client = MQTTClient("test.mosquitto.org", 1883)#actual implementation use our network for now test with public broker
     client.start()
     try:
         while True:
+            client.read_and_publish_moisture_level("home/moisture")
             client.read_and_publish_distance("home/distance")
-            
             time.sleep(1)  # Delay for 1 second before reading again
     except KeyboardInterrupt:
         client.stop()
+        
+        
+        
+        
+        
