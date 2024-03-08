@@ -9,7 +9,7 @@ from collections import deque
 import numpy as np
 import RPi.GPIO as GPIO
 import threading
-import pigpio
+import pigpio as pi
 import statistics
 #ultrasonic
 
@@ -50,7 +50,7 @@ class MQTTClient:
         self.SPEED_OF_SOUND = 34300 # in cm/s
         # Set the number of readings to 10 for ultrasonic sensor
         self.NUM_READINGS = 10
-        self.pi=pigpio.pi()
+        self.pi=pi()
 
     def on_connect(self, client, userdata, flags, reason_code, properties):
         print(f"Connected with result code {reason_code}")
