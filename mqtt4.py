@@ -1,4 +1,4 @@
-trimport paho.mqtt.client as mqtt
+import paho.mqtt.client as mqtt
 import json
 import time
 #import board
