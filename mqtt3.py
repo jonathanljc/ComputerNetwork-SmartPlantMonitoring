@@ -48,18 +48,9 @@ class MQTTClient:
         self.SLEEP_TIME = 1
         # Set the speed of sound to 34300 cm/s for ultrasonic sensor
         self.SPEED_OF_SOUND = 34300 # in cm/s
-<<<<<<< HEAD
         # Set the number of readings to 10 for ultrasonic sensor
         self.NUM_READINGS = 10
         self.pi=pigpio.pi()
-=======
-        # Set the number of readings for ultrasonic sensor
-        self.NUM_READINGS = 5
-        # Set pins
-        self.pi = pigpio.pi()
-        self.pi.set_mode(self.TRIG_PIN, pigpio.OUTPUT)
-        self.pi.set_mode(self.ECHO_PIN, pigpio.INPUT)
->>>>>>> ab6904a88a89bf14c1e54a8a1e11734b88ad0ba5
 
     def on_connect(self, client, userdata, flags, reason_code, properties):
         print(f"Connected with result code {reason_code}")
@@ -135,14 +126,7 @@ class MQTTClient:
             print(f"Invalid state: {state}")
             
     def get_distance(self):
-<<<<<<< HEAD
         self.pi.write(self.TRIG_PIN, 1)
-=======
-        # Initialize pigpio
-        pi = pigpio.pi()
-        
-        pi.write(self.TRIG_PIN, 1)
->>>>>>> ab6904a88a89bf14c1e54a8a1e11734b88ad0ba5
         time.sleep(0.00001)
         self.pi.write(self.TRIG_PIN, 0)
         
@@ -164,17 +148,9 @@ class MQTTClient:
         return distance
             
     def read_and_publish_distance(self, topic):
-        # Initialize pigpio
-        pi = pigpio.pi()
-        
         # Set pin modes
-<<<<<<< HEAD
         self.pi.set_mode(self.TRIG_PIN, pigpio.OUTPUT)
         self.pi.set_mode(self.ECHO_PIN, pigpio.INPUT)
-=======
-        #pi.set_mode(self.TRIG_PIN, pigpio.OUTPUT)
-        #pi.set_mode(self.ECHO_PIN, pigpio.INPUT)
->>>>>>> ab6904a88a89bf14c1e54a8a1e11734b88ad0ba5
         
         # Reset trigger pin
         self.pi.write(self.TRIG_PIN, 0)
