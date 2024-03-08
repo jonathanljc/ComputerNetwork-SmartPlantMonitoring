@@ -1,4 +1,4 @@
-import paho.mqtt.client as mqtt
+trimport paho.mqtt.client as mqtt
 import json
 import time
 #import board
@@ -56,19 +56,19 @@ class MQTTClient:
         # Subscribe to a topic 
         #self.mqttc.subscribe("onrelay")
 
-    # #def on_message(self, client, userdata, msg):
-    #     #try:
-    #         # Attempt to parse the message payload as JSON
-    #         #message = json.loads(msg.payload.decode())
-    #         #print(msg.topic, message)
-    #         # Handle relay topic(rpi 1, water pump for webdashboard side when they turn on)
-    #         #if msg.topic == 'onrelay':
-    #             # Control the relay based on the message
-    #             #self.control_relay(message)
-    #         #else:
-    #             #print(f"Received message on unhandled topic: {msg.topic}")
-    #     #except json.JSONDecodeError:
-    #         #print(f"Could not parse message payload as JSON: {msg.payload}")
+    def on_message(self, client, userdata, msg):
+        try:
+            # Attempt to parse the message payload as JSON
+            message = json.loads(msg.payload.decode())
+            print(msg.topic, message)
+            # Handle relay topic(rpi 1, water pump for webdashboard side when they turn on)
+            #if msg.topic == 'onrelay':
+                # Control the relay based on the message
+                #self.control_relay(message)
+            #else:
+                #print(f"Received message on unhandled topic: {msg.topic}")
+        except json.JSONDecodeError:
+            print(f"Could not parse message payload as JSON: {msg.payload}")
 
     def start(self):
         self.mqttc.loop_start()
