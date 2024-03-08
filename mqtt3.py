@@ -9,7 +9,7 @@ from collections import deque
 import numpy as np
 import RPi.GPIO as GPIO
 import threading
-import pigpio as pi
+import pigpio
 import statistics
 #ultrasonic
 
@@ -50,6 +50,7 @@ class MQTTClient:
         self.SPEED_OF_SOUND = 34300 # in cm/s
         # Set the number of readings to 10 for ultrasonic sensor
         self.NUM_READINGS = 10
+        self.pi=pigpio.pi()
 
     def on_connect(self, client, userdata, flags, reason_code, properties):
         print(f"Connected with result code {reason_code}")
@@ -125,17 +126,17 @@ class MQTTClient:
             print(f"Invalid state: {state}")
             
     def get_distance(self):
-        pi.write(self.TRIG_PIN, 1)
+        self.pi.write(self.TRIG_PIN, 1)
         time.sleep(0.00001)
-        pi.write(self.TRIG_PIN, 0)
+        self.pi.write(self.TRIG_PIN, 0)
         
         start_time = time.time()
-        while pi.read(self.ECHO_PIN) == 0:
+        while self.pi.read(self.ECHO_PIN) == 0:
             if time.time() - start_time > 1: # Timeout after 1 second
                 return None
             
         start_time = time.time()
-        while pi.read(self.ECHO_PIN) == 1:
+        while self.pi.read(self.ECHO_PIN) == 1:
             if time.time() - start_time > 1: # Timeout after 1 second
                 return None
         
@@ -148,11 +149,11 @@ class MQTTClient:
             
     def read_and_publish_distance(self, topic):
         # Set pin modes
-        pi.set_mode(self.TRIG_PIN, pigpio.OUTPUT)
-        pi.set_mode(self.ECHO_PIN, pigpio.INPUT)
+        self.pi.set_mode(self.TRIG_PIN, pigpio.OUTPUT)
+        self.pi.set_mode(self.ECHO_PIN, pigpio.INPUT)
         
         # Reset trigger pin
-        pi.write(self.TRIG_PIN, 0)
+        self.pi.write(self.TRIG_PIN, 0)
         time.sleep(2)
         
         try:
@@ -183,3 +184,5 @@ if __name__ == "__main__":
             time.sleep(1)  # Delay for 1 second before reading again
     except KeyboardInterrupt:
         client.stop()
+    finally:
+        pi.stop()
