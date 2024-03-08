@@ -185,4 +185,4 @@ if __name__ == "__main__":
     except KeyboardInterrupt:
         client.stop()
     finally:
-        pi.stop()
+        client.pi.stop()
