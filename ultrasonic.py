@@ -7,6 +7,8 @@
 import pigpio
 import time
 import statistics
+import paho.mqtt.client as mqtt
+
 
 # Constants
 TRIG_PIN = 11
@@ -14,7 +16,8 @@ ECHO_PIN = 12
 NUM_READINGS = 10
 SPEED_OF_SOUND = 34300  # in cm/s
 SLEEP_TIME = 1
-
+MQTT_BROKER="test.mosquitto.org"
+MQTT_TOPIC="distance"
 # Initialize pigpio
 pi = pigpio.pi()
 
@@ -49,6 +52,8 @@ def get_distance():
     return distance
 
 try:
+    client=mqtt.Client()
+    client.connect(MQTT_BROKER)
     while True:
         distances = [get_distance() for _ in range(NUM_READINGS)]
         distances = [d for d in distances if d is not None]
