@@ -169,7 +169,7 @@ class MQTTClient:
                 time.sleep(self.SLEEP_TIME)
         except KeyboardInterrupt:
             print("Measurement stopped by User")
-            pi.stop()
+            client.pi.stop()
         
         
 
