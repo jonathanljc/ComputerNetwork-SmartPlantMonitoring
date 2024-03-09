@@ -50,6 +50,7 @@ class MQTTClient:
         self.pi.set_mode(self.ECHO_PIN,pigpio.INPUT)
         self.pi.write(self.TRIG_PIN,0)
         time.sleep(2)
+        
 
     def on_connect(self, client, userdata, flags, reason_code, properties):
         print(f"Connected with result code {reason_code}")
