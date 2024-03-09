@@ -128,12 +128,19 @@ class MQTTClient:
         self.pi.write(self.TRIG_PIN,1)
         time.sleep(0.00001)
         self.pi.write(self.TRIG_PIN,0)
+        
         start_time=time.time()
         while self.pi.read(self.ECHO_PIN)==0:
             if time.time()-start_time>1:
                 return None
+         
+        start_time=time.time()   
+        while self.pi.read(self.ECHO_PIN)==1:
+            if time.time()-start_time>1:
+                return None
+            
         stop_time=time.time()
-        start_time=time.time()
+        
         elapsed_time=stop_time-start_time
         distance=(elapsed_time*self.SPEED_OF_SOUND)/2
         return distance
