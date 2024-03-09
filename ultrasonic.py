@@ -50,6 +50,7 @@ def get_distance():
 
 try:
     while True:
+        
         distances = [get_distance() for _ in range(NUM_READINGS)]
         distances = [d for d in distances if d is not None]
         if distances:
