@@ -9,7 +9,7 @@ def receive_messages(client_socket, current_username):
                 print(message)
             elif ':' in message:
                 sender, message_body = message.split(':', 1)
-                if sender != current_username:  # Check if sender is not the current client
+                if message.startswith(f"[{current_username}]") == False:  # Check if sender is not the current client
                     if message_body.strip().startswith('@'):
                         recipient, message_body = message_body.strip().split(' ', 1)
                         if recipient == current_username:
@@ -18,15 +18,15 @@ def receive_messages(client_socket, current_username):
                         print(message)
                     else:
                         print(message)
-            else:
-                print(message)
+            # else message.startswith(f"[{current_username}]") == False:
+            #     print(message)
         except Exception as e:
             print(f"Error: {e}")
             break
 
 def send_messages(client_socket, current_username):
     while True:
-        message = input("Enter message (or type '@quit' to exit): ")
+        message = input("Enter message (or type '@quit' to exit): \n")
         if message == '@quit':
             client_socket.sendall(message.encode('utf-8'))
             client_socket.close()  # Close the client socket
@@ -55,7 +55,7 @@ def main():
         welcome_message = client_socket.recv(1024).decode('utf-8')
 
         if welcome_message.startswith("[Username"):
-            print("Username error: ", welcome_message)
+            print(welcome_message)
         else:
             print(welcome_message)
 
