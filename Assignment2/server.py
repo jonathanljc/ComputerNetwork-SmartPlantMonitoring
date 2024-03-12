@@ -9,7 +9,6 @@ def handle_client(client_socket, clients, client_names):
                 if message.strip() == "@quit":
                     exiting_username = client_names[client_socket]
                     print(f"[{exiting_username} has left the chat]")  
-                    
                     break
                 elif message.strip() == "@names":
                     names = ', '.join(client_names.values())
@@ -27,6 +26,8 @@ def handle_client(client_socket, clients, client_names):
                 else:
                     sender_username = client_names[client_socket]
                     print(f"[{sender_username}]: {message}")  # Server displays public message
+                    for client in clients:
+                        client.sendall(f"[{sender_username}]: {message}".encode('utf-8'))
         except Exception as e:
             print(f"Error: {e}")
             break
@@ -38,7 +39,7 @@ def handle_client(client_socket, clients, client_names):
 def announce_new_user(clients, client_names, new_username):
     for client in clients:
         if client_names[client] != new_username:
-            client.sendall(f"[{new_username} joined]".encode('utf-8'))
+            client.sendall(f"\n[{new_username} joined]".encode('utf-8'))
 
 
 
@@ -60,13 +61,13 @@ def main():
         print(f"[*] Accepted connection from {addr[0]}:{addr[1]}")
         
         while True:
-            client_socket.sendall("Enter your name: ".encode('utf-8'))
+            #client_socket.sendall("Enter your username: ".encode('utf-8'))
             username = client_socket.recv(1024).decode('utf-8').strip()
 
             if username in client_names.values():
                 client_socket.sendall("[Username has already been used. Please enter another name.]".encode('utf-8'))
             else:
-                client_socket.sendall("OK".encode('utf-8'))
+                client_socket.sendall(f"Welcome {username}!".encode('utf-8'))
                 break
 
         clients.append(client_socket)

@@ -48,25 +48,28 @@ def main():
     client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     client_socket.connect((host, port))
 
-    username = input("Enter your username: ")
-    client_socket.sendall(username.encode('utf-8'))
+    while True:
+        username = input("\nEnter your name: ")
+        client_socket.sendall(username.encode('utf-8'))
 
-    welcome_message = client_socket.recv(1024).decode('utf-8')
-    print(welcome_message)
+        welcome_message = client_socket.recv(1024).decode('utf-8')
 
-    username_announcement = client_socket.recv(1024).decode('utf-8')
-    print(username_announcement)
+        if welcome_message.startswith("[Username"):
+            print("Username error: ", welcome_message)
+        else:
+            print(welcome_message)
 
-    receive_thread = threading.Thread(target=receive_messages, args=(client_socket, username))
-    receive_thread.start()
+            send_thread = threading.Thread(target=send_messages, args=(client_socket, username))
+            send_thread.start()
+            receive_thread = threading.Thread(target=receive_messages, args=(client_socket, username))
+            receive_thread.start()
 
-    send_thread = threading.Thread(target=send_messages, args=(client_socket, username))
-    send_thread.start()
+            send_thread.join()
+            receive_thread.join()
 
-    send_thread.join()
-    receive_thread.join()
+            client_socket.close()
+            break
 
-    client_socket.close()
 
 if __name__ == "__main__":
     main()
