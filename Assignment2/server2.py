@@ -13,7 +13,7 @@ class Server:
         )
         # self.server_socket.settimeout(5)
         self.client_sockets: list[socket.socket] = []
-        self.client_names: dict[str] = {}
+        self.client_names: dict[str, socket.socket] = {}
         self.threads: list[threading.Thread] = []
         self.running = False
 
@@ -38,7 +38,11 @@ class Server:
         if not self.running:
             self.start()
         while self.running:
-            client_socket, addr = self.server_socket.accept()
+            try:
+                client_socket, addr = self.server_socket.accept()
+            except Exception as e:
+                print(f"Error: {e}")
+                break
             print(f"[*] Accepted connection from {addr[0]}:{addr[1]}")
 
             username = self.wait_for_username(client_socket)
@@ -58,20 +62,9 @@ class Server:
             )
             self.threads.append(client_thread)
             client_thread.start()
+        # by the way, this code is never technically reached
         self.server_socket.close()
         print("Server closed.")
-
-
-def receive_msg(client_socket):
-    while True:
-        try:
-            message = client_socket.recv(1024).decode("utf-8")
-            if not message:
-                continue
-            return message
-        except Exception as e:
-            print(f"Error: {e}")
-            return None
 
 
 def handle_quit(client_socket, clients, client_names):
@@ -101,24 +94,53 @@ def handle_personal_message(client_socket, client_names, message):
             return
 
 
+def handle_group_setup(client_socket, client_names, message):
+    group_name, group_message = message.split(" ", 1)
+    group_name = group_name[1:]
+    for client, username in client_names.items():
+        if username == group_name:
+            msg_fmt = f"[{client_names[client_socket]} (group)]: {group_message}"
+            client.sendall(msg_fmt.encode("utf-8"))
+            print(f"[{client_names[client_socket]} -> {group_name}]")
+
+
+def handle_group_delete(client_socket, client_names, message):
+    group_name = message.split(" ", 1)
+    group_name = group_name[1:]
+    for client, username in client_names.items():
+        if username == group_name:
+            msg_fmt = f"[{client_names[client_socket]} (group)]: {group_message}"
+            client.sendall(msg_fmt.encode("utf-8"))
+            print(f"[{client_names[client_socket]} -> {group_name}]")
+
+
 def handle_client(client_socket, clients, client_names):
     while True:
-        message = receive_msg(client_socket)
-        if message is None:
+        try:
+            message = client_socket.recv(1024).decode("utf-8")
+            if not message:
+                continue
+            stripped = message.strip()
+            if stripped == "@quit":
+                handle_quit(client_socket, clients, client_names)
+                break
+            elif stripped == "@names":
+                handle_names(client_socket, client_names)
+            elif message.startswith("@group set"):
+                handle_group_setup(client_socket, client_names, message)
+            elif message.startswith("@group delete"):
+                handle_group_delete(client_socket, client_names, message)
+            elif message.startswith("@"):
+                handle_personal_message(client_socket, client_names, message)
+            else:
+                sender_username = client_names[client_socket]
+                msg_fmt = f"[{sender_username}]: {message}"
+                print(msg_fmt)
+                for client in clients:
+                    client.sendall(msg_fmt.encode("utf-8"))
+        except Exception as e:
+            print(f"Error: {e}")
             break
-        stripped = message.strip()
-        if stripped == "@quit":
-            handle_quit(client_socket, clients, client_names)
-            break
-        elif stripped == "@names":
-            handle_names(client_socket, client_names)
-        elif message.startswith("@"):
-            handle_personal_message(client_socket, client_names, message)
-        else:
-            sender_username = client_names[client_socket]
-            print(f"[{sender_username}]: {message}")  # Server displays public message
-            for client in clients:
-                client.sendall(f"[{sender_username}]: {message}".encode("utf-8"))
 
     clients.remove(client_socket)
     client_socket.close()
