@@ -2,14 +2,17 @@ import socket
 import threading
 
 def receive_messages(client_socket, current_username):
+    previous_message = None  # Initialize previous message variable
     while True:
         try:
             message = client_socket.recv(1024).decode('utf-8')
-            if message.startswith("[") and message.endswith(" joined]"):
-                print(message)
-            elif ':' in message:
-                sender, message_body = message.split(':', 1)
-                if message.startswith(f"[{current_username}]") == False:  # Check if sender is not the current client
+            if message != previous_message:  # Check if message is different from the previous one
+                if message.startswith("[") and message.endswith(" joined]"):
+                    print(message)
+                elif message.startswith("[") and message.endswith(" group]"):
+                    print(message.replace("You", current_username))
+                elif ':' in message:
+                    sender, message_body = message.split(':', 1)
                     if message_body.strip().startswith('@'):
                         recipient, message_body = message_body.strip().split(' ', 1)
                         if recipient == current_username:
@@ -18,11 +21,13 @@ def receive_messages(client_socket, current_username):
                         print(message)
                     else:
                         print(message)
-            # else message.startswith(f"[{current_username}]") == False:
-            #     print(message)
+                else:
+                    print(message)
+                previous_message = message  # Update previous message variable
         except Exception as e:
             print(f"Error: {e}")
             break
+
 
 def send_messages(client_socket, current_username):
     while True:
@@ -31,15 +36,33 @@ def send_messages(client_socket, current_username):
             client_socket.sendall(message.encode('utf-8'))
             client_socket.close()  # Close the client socket
             break
+        elif message.startswith('@group set'):
+            parts = message.split()
+            if len(parts) < 4:
+                print("Invalid format. Usage: @group set group_name user1,user2,user3,...")
+                continue
+            else:
+                print("Sending group setup command:", message)
+                client_socket.sendall(message.encode('utf-8'))
         elif message.startswith('@'):
             if message.strip() == "@names":
                 client_socket.sendall(message.encode('utf-8'))  # Send '@names' directly to the server
             else:
                 recipient_username, personal_message = message.split(' ', 1)
                 client_socket.sendall(f"{recipient_username} {personal_message}".encode('utf-8'))
+        elif message.startswith('@group send'):
+            parts = message.split(maxsplit=2)
+            if len(parts) < 3:
+                print("Invalid format. Usage: @group send group_name message")
+                continue
+            else:
+                _, group_name, send_message = parts
+                group_name = group_name.strip()
+                message_to_send = f"@group send {group_name} {send_message}"
+                print("Sending group message:", message_to_send)
+                client_socket.sendall(message_to_send.encode('utf-8'))
         else:
             client_socket.sendall(message.encode('utf-8'))
-
 
 def main():
     host = input("Enter server IP address: ")
@@ -69,7 +92,6 @@ def main():
 
             client_socket.close()
             break
-
 
 if __name__ == "__main__":
     main()
