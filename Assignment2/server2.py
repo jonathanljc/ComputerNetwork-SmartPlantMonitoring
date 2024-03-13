@@ -13,7 +13,8 @@ class Server:
         )
         # self.server_socket.settimeout(5)
         self.client_sockets: list[socket.socket] = []
-        self.client_names: dict[str, socket.socket] = {}
+        self.client_names: dict[socket.socket, str] = {}
+        self.groups: dict[str, set[str]] = {}
         self.threads: list[threading.Thread] = []
         self.running = False
 
@@ -34,6 +35,10 @@ class Server:
             else:
                 return username
 
+    def notify_clients(self, message):
+        for client in self.client_sockets:
+            client.sendall(message.encode("utf-8"))
+
     def run(self):
         if not self.running:
             self.start()
@@ -48,6 +53,8 @@ class Server:
             username = self.wait_for_username(client_socket)
 
             client_socket.sendall(f"Welcome {username}!".encode("utf-8"))
+
+            # Notify existing clients about the new client joining
             for client in self.client_sockets:
                 client.sendall(f"\n[{username} joined]".encode("utf-8"))
 
@@ -58,7 +65,7 @@ class Server:
 
             client_thread = threading.Thread(
                 target=handle_client,
-                args=(client_socket, self.client_sockets, self.client_names),
+                args=(client_socket, self.client_sockets, self.client_names, self.groups),
             )
             self.threads.append(client_thread)
             client_thread.start()
@@ -94,27 +101,172 @@ def handle_personal_message(client_socket, client_names, message):
             return
 
 
-def handle_group_setup(client_socket, client_names, message):
-    group_name, group_message = message.split(" ", 1)
-    group_name = group_name[1:]
-    for client, username in client_names.items():
-        if username == group_name:
-            msg_fmt = f"[{client_names[client_socket]} (group)]: {group_message}"
-            client.sendall(msg_fmt.encode("utf-8"))
-            print(f"[{client_names[client_socket]} -> {group_name}]")
+def handle_group_setup(client_socket, client_names, groups, message):
+    try:
+        parts = message.split()
+        if len(parts) < 4:
+            client_socket.sendall(
+                "[Invalid format. Usage: @group set group_name user1,user2,...]".encode(
+                    "utf-8"
+                )
+            )
+            return
+
+        _, _, group_name, users = parts
+        group_name = group_name.strip()
+        users_list = users.split(",")
+
+        # Check if the group name already exists
+        if group_name in groups:
+            client_socket.sendall(f"[Group '{group_name}' already exists.]".encode("utf-8"))
+            return
+
+        # Check if all users in the group exist
+        for username in users_list:
+            if username not in client_names.values():
+                client_socket.sendall(f"[User '{username}' does not exist.]".encode("utf-8"))
+                return
+
+        # Create the group and add users to it
+        groups[group_name] = set(users_list)
+
+        for username in users_list:
+            for user_socket, name in client_names.items():
+                if name == username:
+                    print(f"Adding {username} to group {group_name}")
+                    user_socket.sendall(
+                        f"[You have been added to the {group_name} group]".encode(
+                            "utf-8"
+                        )
+                    )
+
+        # Send setup notification to the client who initiated the group setup
+        client_socket.sendall(
+            f"[Group '{group_name}' has been successfully created.]".encode("utf-8")
+        )
+
+    except Exception as e:
+        client_socket.sendall(f"[Error setting up group: {e}]".encode("utf-8"))
 
 
-def handle_group_delete(client_socket, client_names, message):
-    group_name = message.split(" ", 1)
-    group_name = group_name[1:]
-    for client, username in client_names.items():
-        if username == group_name:
-            msg_fmt = f"[{client_names[client_socket]} (group)]: {group_message}"
-            client.sendall(msg_fmt.encode("utf-8"))
-            print(f"[{client_names[client_socket]} -> {group_name}]")
+def handle_group_send(client_socket, client_names, groups, message):
+    try:
+        parts = message.split(maxsplit=3)
+        if len(parts) < 4:
+            client_socket.sendall(
+                "[Invalid format. Usage: @group send group_name message]".encode(
+                    "utf-8"
+                )
+            )
+            return
+
+        _, _, group_name, send_message = parts
+        group_name = group_name.strip()
+
+        if group_name not in groups:
+            client_socket.sendall("[Group does not exist.]".encode("utf-8"))
+            return
+
+        sender_username = client_names[client_socket]
+
+        if sender_username not in groups[group_name]:
+            client_socket.sendall("[You are not a member of this group.]".encode("utf-8"))
+            return
+
+        for username in groups[group_name]:
+            if username != sender_username:
+                user_socket = [
+                    socket
+                    for socket, name in client_names.items()
+                    if name == username
+                ][0]
+                msg_fmt = f"[{sender_username} (group {group_name})]: {send_message}"
+                user_socket.sendall(msg_fmt.encode("utf-8"))
+    except Exception as e:
+        client_socket.sendall(f"[Error sending group message: {e}]".encode("utf-8"))
 
 
-def handle_client(client_socket, clients, client_names):
+def send_group_setup_notification(
+    client_sockets, client_names, group_name, users_list
+):
+    for username in users_list:
+        for socket, name in client_names.items():
+            if name == username:
+                print(f"Sending group setup notification to {name}")
+                notification = f"[{username} have been added to the {group_name} group]"
+                socket.sendall(notification.encode("utf-8"))
+
+
+def handle_group_delete(client_socket, client_names, groups, message):
+    try:
+        parts = message.split(maxsplit=2)
+        if len(parts) < 2:
+            client_socket.sendall(
+                "[Invalid format. Usage: @group delete group_name]".encode("utf-8")
+            )
+            return
+
+        group_name = parts[-1].strip()  # Extract the last part as the group name
+
+        if group_name not in groups:
+            client_socket.sendall(
+                f"[Group '{group_name}' does not exist.]".encode("utf-8")
+            )
+            return
+
+        # Notify all users in the group about the deletion
+        for username in groups[group_name]:
+            for user_socket, name in client_names.items():
+                if name == username:
+                    user_socket.sendall(
+                        f"[Group '{group_name}' has been deleted.]".encode("utf-8")
+                    )
+
+        del groups[group_name]
+        client_socket.sendall(
+            f"[Group '{group_name}' has been successfully deleted.]".encode("utf-8")
+        )
+    except Exception as e:
+        client_socket.sendall(f"[Error deleting group: {e}]".encode("utf-8"))
+
+
+
+
+def handle_group_leave(client_socket, client_names, groups, message):
+    try:
+        parts = message.split(" ")
+        if len(parts) < 3:
+            client_socket.sendall(
+                "[Invalid format. Usage: @group leave group_name]".encode("utf-8")
+            )
+            return
+
+        _, _, group_name = parts
+        group_name = group_name.strip()
+
+        if group_name not in groups:
+            client_socket.sendall("[Group does not exist.]".encode("utf-8"))
+            return
+
+        sender_username = client_names[client_socket]
+        if sender_username not in groups[group_name]:
+            client_socket.sendall("[You are not a member of this group.]".encode("utf-8"))
+            return
+
+        groups[group_name].remove(sender_username)
+
+        msg_fmt = f"[{sender_username} has left the {group_name} group.]"
+        for client_socket, username in client_names.items():
+            if username in groups[group_name]:
+                client_socket.sendall(msg_fmt.encode("utf-8"))
+        client_socket.sendall(
+            f"[You have successfully left the {group_name} group.]".encode("utf-8")
+        )
+    except Exception as e:
+        client_socket.sendall(f"[Error leaving group: {e}]".encode("utf-8"))
+
+
+def handle_client(client_socket, clients, client_names, groups):
     while True:
         try:
             message = client_socket.recv(1024).decode("utf-8")
@@ -126,11 +278,15 @@ def handle_client(client_socket, clients, client_names):
                 break
             elif stripped == "@names":
                 handle_names(client_socket, client_names)
-            elif message.startswith("@group set"):
-                handle_group_setup(client_socket, client_names, message)
-            elif message.startswith("@group delete"):
-                handle_group_delete(client_socket, client_names, message)
-            elif message.startswith("@"):
+            elif stripped.startswith("@group set"):
+                handle_group_setup(client_socket, client_names, groups, stripped)
+            elif stripped.startswith("@group send"):
+                handle_group_send(client_socket, client_names, groups, stripped)
+            elif stripped.startswith("@group delete"):
+                handle_group_delete(client_socket, client_names, groups, stripped)
+            elif stripped.startswith("@group leave"):
+                handle_group_leave(client_socket, client_names, groups, stripped)
+            elif stripped.startswith("@"):
                 handle_personal_message(client_socket, client_names, message)
             else:
                 sender_username = client_names[client_socket]
