@@ -1,0 +1,662 @@
+[
+    {
+        "id": "69ff56bb537a4ac8",
+        "type": "tab",
+        "label": "Backend",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "acc91d28b8f59fed",
+        "type": "tab",
+        "label": "Setting",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "605f4eb3c18c6bf9",
+        "type": "tab",
+        "label": "Home",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "667d120e171461ba",
+        "type": "tab",
+        "label": "Temperature",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "66623105826c1e88",
+        "type": "mqtt-broker",
+        "name": "",
+        "broker": "localhost",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "9a883bc2609897a4",
+        "type": "ui-base",
+        "name": "ui-base",
+        "path": "/dashboard",
+        "includeClientData": true,
+        "acceptsClientConfig": [
+            "ui-notification",
+            "ui-control"
+        ],
+        "showPathInSidebar": false,
+        "navigationStyle": "default"
+    },
+    {
+        "id": "d348f40ad48b748b",
+        "type": "ui-theme",
+        "name": "Default",
+        "colors": {
+            "surface": "#ffffff",
+            "primary": "#0094ce",
+            "bgPage": "#eeeeee",
+            "groupBg": "#ffffff",
+            "groupOutline": "#cccccc"
+        },
+        "sizes": {
+            "pagePadding": "12px",
+            "groupGap": "12px",
+            "groupBorderRadius": "4px",
+            "widgetGap": "12px"
+        }
+    },
+    {
+        "id": "6f3fd4503dcf0e2d",
+        "type": "ui-page",
+        "name": "Home",
+        "ui": "9a883bc2609897a4",
+        "path": "/page1",
+        "icon": "home",
+        "layout": "notebook",
+        "theme": "d348f40ad48b748b",
+        "order": -1,
+        "className": "",
+        "visible": "true",
+        "disabled": "false"
+    },
+    {
+        "id": "dba6c15a9ee7f94c",
+        "type": "ui-group",
+        "name": "home-g1",
+        "page": "6f3fd4503dcf0e2d",
+        "width": "6",
+        "height": "1",
+        "order": -1,
+        "showTitle": false,
+        "className": "",
+        "visible": "true",
+        "disabled": "false"
+    },
+    {
+        "id": "937e23260c10c1a6",
+        "type": "ui-group",
+        "name": "home-g2",
+        "page": "6f3fd4503dcf0e2d",
+        "width": "6",
+        "height": "1",
+        "order": -1,
+        "showTitle": false,
+        "className": "",
+        "visible": "true",
+        "disabled": "false"
+    },
+    {
+        "id": "505582d98569caca",
+        "type": "ui-group",
+        "name": "home-g3",
+        "page": "6f3fd4503dcf0e2d",
+        "width": "6",
+        "height": "1",
+        "order": -1,
+        "showTitle": false,
+        "className": "",
+        "visible": "true",
+        "disabled": "false"
+    },
+    {
+        "id": "f0d54d3903514065",
+        "type": "ui-page",
+        "name": "Temperature",
+        "ui": "9a883bc2609897a4",
+        "path": "/page2",
+        "icon": "thermometer",
+        "layout": "notebook",
+        "theme": "d348f40ad48b748b",
+        "order": -1,
+        "className": "",
+        "visible": "true",
+        "disabled": "false"
+    },
+    {
+        "id": "e19e37a578398e43",
+        "type": "ui-group",
+        "name": "temperature-g1",
+        "page": "f0d54d3903514065",
+        "width": "6",
+        "height": "1",
+        "order": -1,
+        "showTitle": true,
+        "className": "",
+        "visible": "true",
+        "disabled": "false"
+    },
+    {
+        "id": "6763788d20d8c005",
+        "type": "ui-group",
+        "name": "temperature-g2",
+        "page": "f0d54d3903514065",
+        "width": "6",
+        "height": "1",
+        "order": -1,
+        "showTitle": true,
+        "className": "",
+        "visible": "true",
+        "disabled": "false"
+    },
+    {
+        "id": "d19f5b6de6d0d94d",
+        "type": "sqlitedb",
+        "db": "/home/pi/nodered/sensor.sqlite3",
+        "mode": "RO"
+    },
+    {
+        "id": "18ffba03ae4cadd9",
+        "type": "ui-page",
+        "name": "Setting",
+        "ui": "9a883bc2609897a4",
+        "path": "/page3",
+        "icon": "cog",
+        "layout": "notebook",
+        "theme": "d348f40ad48b748b",
+        "order": -1,
+        "className": "",
+        "visible": "true",
+        "disabled": "false"
+    },
+    {
+        "id": "b99e83129ea518cd",
+        "type": "ui-group",
+        "name": "setting-g1",
+        "page": "18ffba03ae4cadd9",
+        "width": "6",
+        "height": "1",
+        "order": -1,
+        "showTitle": true,
+        "className": "",
+        "visible": "true",
+        "disabled": "false"
+    },
+    {
+        "id": "6a50d14d92471050",
+        "type": "mqtt in",
+        "z": "69ff56bb537a4ac8",
+        "name": "",
+        "topic": "home",
+        "qos": "0",
+        "datatype": "auto-detect",
+        "broker": "66623105826c1e88",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 230,
+        "y": 120,
+        "wires": [
+            [
+                "bd135f4ffd812749",
+                "5acaecb4ba098d89"
+            ]
+        ]
+    },
+    {
+        "id": "bd135f4ffd812749",
+        "type": "debug",
+        "z": "69ff56bb537a4ac8",
+        "name": "debug 1",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 480,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "47775ad69ed4e788",
+        "type": "sqlite",
+        "z": "69ff56bb537a4ac8",
+        "mydb": "d19f5b6de6d0d94d",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "Sensor DB",
+        "x": 250,
+        "y": 180,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "5acaecb4ba098d89",
+        "type": "link out",
+        "z": "69ff56bb537a4ac8",
+        "name": "home",
+        "mode": "link",
+        "links": [
+            "3ddb0d89d7c05fc0"
+        ],
+        "x": 435,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "4fc8edbaceecce78",
+        "type": "ui-form",
+        "z": "acc91d28b8f59fed",
+        "name": "form",
+        "group": "b99e83129ea518cd",
+        "label": "",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "options": [
+            {
+                "label": "Connected ",
+                "key": "G",
+                "type": "text",
+                "required": true,
+                "rows": null
+            }
+        ],
+        "formValue": {
+            "G": ""
+        },
+        "payload": "",
+        "submit": "submit",
+        "cancel": "clear",
+        "resetOnSubmit": true,
+        "topic": "topic",
+        "topicType": "msg",
+        "splitLayout": "",
+        "className": "",
+        "x": 330,
+        "y": 140,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "a1c98c2f0734520c",
+        "type": "ui-table",
+        "z": "acc91d28b8f59fed",
+        "group": "b99e83129ea518cd",
+        "name": "Clients",
+        "label": "text",
+        "order": 0,
+        "width": "4",
+        "height": "4",
+        "maxrows": "5",
+        "autocols": true,
+        "columns": [],
+        "x": 330,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "3ddb0d89d7c05fc0",
+        "type": "link in",
+        "z": "acc91d28b8f59fed",
+        "name": "link in 1",
+        "links": [
+            "5acaecb4ba098d89"
+        ],
+        "x": 175,
+        "y": 180,
+        "wires": [
+            [
+                "a1c98c2f0734520c"
+            ]
+        ]
+    },
+    {
+        "id": "a50b704cec313b29",
+        "type": "ui-markdown",
+        "z": "605f4eb3c18c6bf9",
+        "group": "dba6c15a9ee7f94c",
+        "name": "",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "content": "# Welcome!\n\nDocumentation is scarce, so just explore around.",
+        "className": "",
+        "x": 410,
+        "y": 220,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "44c021c794096980",
+        "type": "ui-gauge",
+        "z": "605f4eb3c18c6bf9",
+        "name": "Temperature",
+        "group": "937e23260c10c1a6",
+        "order": 0,
+        "width": "3",
+        "height": "4",
+        "gtype": "gauge-34",
+        "gstyle": "rounded",
+        "title": "Temperature",
+        "units": "celsius",
+        "icon": "thermometer",
+        "prefix": "",
+        "suffix": "",
+        "segments": [
+            {
+                "from": "40",
+                "color": "#ea5353"
+            },
+            {
+                "from": "60",
+                "color": "#36c524"
+            },
+            {
+                "from": "80",
+                "color": "#ac0606"
+            }
+        ],
+        "min": "40",
+        "max": "100",
+        "sizeThickness": 16,
+        "sizeGap": 4,
+        "sizeKeyThickness": 8,
+        "styleRounded": true,
+        "styleGlow": false,
+        "className": "",
+        "x": 350,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "8fb9270429e8aa03",
+        "type": "ui-gauge",
+        "z": "605f4eb3c18c6bf9",
+        "name": "Humidity",
+        "group": "937e23260c10c1a6",
+        "order": 0,
+        "width": "3",
+        "height": "4",
+        "gtype": "gauge-34",
+        "gstyle": "needle",
+        "title": "Humidity",
+        "units": "percent",
+        "icon": "water",
+        "prefix": "",
+        "suffix": "",
+        "segments": [
+            {
+                "from": "0",
+                "color": "#5cd65c"
+            },
+            {
+                "from": "4",
+                "color": "#ffc800"
+            },
+            {
+                "from": "7",
+                "color": "#ea5353"
+            }
+        ],
+        "min": 0,
+        "max": "100",
+        "sizeThickness": 16,
+        "sizeGap": 4,
+        "sizeKeyThickness": 8,
+        "styleRounded": true,
+        "styleGlow": false,
+        "className": "",
+        "x": 500,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "4c2ad07f8c593b3f",
+        "type": "ui-slider",
+        "z": "605f4eb3c18c6bf9",
+        "group": "505582d98569caca",
+        "name": "",
+        "label": "slider",
+        "tooltip": "",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "outs": "all",
+        "topic": "topic",
+        "topicType": "msg",
+        "thumbLabel": true,
+        "min": "40",
+        "max": "100",
+        "step": "1",
+        "className": "",
+        "x": 210,
+        "y": 380,
+        "wires": [
+            [
+                "8fb9270429e8aa03",
+                "44c021c794096980",
+                "24547cf023aa0a9b",
+                "92d47b2802c75982"
+            ]
+        ]
+    },
+    {
+        "id": "92d47b2802c75982",
+        "type": "ui-gauge",
+        "z": "605f4eb3c18c6bf9",
+        "name": "Oxygen",
+        "group": "937e23260c10c1a6",
+        "order": 0,
+        "width": "3",
+        "height": "4",
+        "gtype": "gauge-34",
+        "gstyle": "needle",
+        "title": "Humidity",
+        "units": "percent",
+        "icon": "water",
+        "prefix": "",
+        "suffix": "",
+        "segments": [
+            {
+                "from": "0",
+                "color": "#5cd65c"
+            },
+            {
+                "from": "4",
+                "color": "#ffc800"
+            },
+            {
+                "from": "7",
+                "color": "#ea5353"
+            }
+        ],
+        "min": 0,
+        "max": "100",
+        "sizeThickness": 16,
+        "sizeGap": 4,
+        "sizeKeyThickness": 8,
+        "styleRounded": true,
+        "styleGlow": false,
+        "className": "",
+        "x": 500,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "24547cf023aa0a9b",
+        "type": "ui-gauge",
+        "z": "605f4eb3c18c6bf9",
+        "name": "UV",
+        "group": "937e23260c10c1a6",
+        "order": 0,
+        "width": "3",
+        "height": "4",
+        "gtype": "gauge-34",
+        "gstyle": "needle",
+        "title": "Humidity",
+        "units": "percent",
+        "icon": "water",
+        "prefix": "",
+        "suffix": "",
+        "segments": [
+            {
+                "from": "0",
+                "color": "#5cd65c"
+            },
+            {
+                "from": "4",
+                "color": "#ffc800"
+            },
+            {
+                "from": "7",
+                "color": "#ea5353"
+            }
+        ],
+        "min": 0,
+        "max": "100",
+        "sizeThickness": 16,
+        "sizeGap": 4,
+        "sizeKeyThickness": 8,
+        "styleRounded": true,
+        "styleGlow": false,
+        "className": "",
+        "x": 330,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "3167bd5a8dad6729",
+        "type": "ui-chart",
+        "z": "667d120e171461ba",
+        "group": "6763788d20d8c005",
+        "name": "Temperature Data",
+        "label": "chart",
+        "order": 9007199254740991,
+        "chartType": "line",
+        "category": "topic",
+        "categoryType": "msg",
+        "xAxisProperty": "",
+        "xAxisPropertyType": "msg",
+        "xAxisType": "time",
+        "yAxisProperty": "",
+        "ymin": "",
+        "ymax": "",
+        "action": "append",
+        "pointShape": "circle",
+        "pointRadius": 4,
+        "showLegend": true,
+        "removeOlder": 1,
+        "removeOlderUnit": "3600",
+        "removeOlderPoints": "",
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "width": 6,
+        "height": 8,
+        "className": "",
+        "x": 410,
+        "y": 200,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "07644e22814738a1",
+        "type": "ui-markdown",
+        "z": "667d120e171461ba",
+        "group": "e19e37a578398e43",
+        "name": "",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "content": "# Temperature Data\n\nExplore around",
+        "className": "",
+        "x": 390,
+        "y": 120,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "3a3a3aa7230f1d61",
+        "type": "ui-slider",
+        "z": "667d120e171461ba",
+        "group": "6763788d20d8c005",
+        "name": "",
+        "label": "slider",
+        "tooltip": "",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "outs": "all",
+        "topic": "topic",
+        "topicType": "msg",
+        "thumbLabel": true,
+        "min": 0,
+        "max": 10,
+        "step": 1,
+        "className": "",
+        "x": 230,
+        "y": 200,
+        "wires": [
+            [
+                "3167bd5a8dad6729"
+            ]
+        ]
+    }
+]
