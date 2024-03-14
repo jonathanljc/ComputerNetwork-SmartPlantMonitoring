@@ -1,4 +1,5 @@
 import time
+from paho.mqtt.client import ReasonCode
 import paho.mqtt.client as mqtt
 
 
@@ -26,23 +27,41 @@ def on_publish(client, userdata, mid, reason_code, properties):
         print("but remember that mid could be re-used !")
 
 
+def on_connect(client, userdata, flags, rc: ReasonCode, properties: dict):
+    print("CONNACK received with code %d." % (rc.value))
+
+
 unacked_publish = set()
-mqttc = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2)
+mqttc = mqtt.Client(
+    callback_api_version=mqtt.CallbackAPIVersion.VERSION2, protocol=mqtt.MQTTv5
+)
 mqttc.on_publish = on_publish
+mqttc.on_connect = on_connect
 
 mqttc.user_data_set(unacked_publish)
 mqttc.connect("localhost", 1883, 60)
 mqttc.loop_start()
 
+print("Press Ctrl+C to exit the loop")
+
 try:
-    message_number = 0
+    wave = 0
+    do_substract = False
     while True:
-        message = f"my message {message_number}"
-        message = message_number
-        msg_info = mqttc.publish("home", message, qos=0)
+        if wave == 100:
+            do_substract = True
+        elif wave == 0:
+            do_substract = False
+        if do_substract:
+            wave -= 1
+        else:
+            wave += 1
+
+        msg_info = mqttc.publish("test/subscriber", wave, qos=2)
+        print(wave)
         unacked_publish.add(msg_info.mid)
         msg_info.wait_for_publish()
-        message_number += 1
+
         while len(unacked_publish):
             time.sleep(0.1)
         time.sleep(1)

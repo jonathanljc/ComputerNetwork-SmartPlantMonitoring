@@ -2,15 +2,15 @@
     {
         "id": "69ff56bb537a4ac8",
         "type": "tab",
-        "label": "Backend",
+        "label": "Production",
         "disabled": false,
         "info": "",
         "env": []
     },
     {
-        "id": "acc91d28b8f59fed",
+        "id": "2001cee55d2db03c",
         "type": "tab",
-        "label": "Setting",
+        "label": "Development",
         "disabled": false,
         "info": "",
         "env": []
@@ -19,6 +19,14 @@
         "id": "605f4eb3c18c6bf9",
         "type": "tab",
         "label": "Home",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "acc91d28b8f59fed",
+        "type": "tab",
+        "label": "Setting",
         "disabled": false,
         "info": "",
         "env": []
@@ -168,7 +176,7 @@
         "width": "6",
         "height": "1",
         "order": -1,
-        "showTitle": true,
+        "showTitle": false,
         "className": "",
         "visible": "true",
         "disabled": "false"
@@ -223,8 +231,9 @@
         "id": "6a50d14d92471050",
         "type": "mqtt in",
         "z": "69ff56bb537a4ac8",
+        "d": true,
         "name": "",
-        "topic": "home",
+        "topic": "home/temperature",
         "qos": "0",
         "datatype": "auto-detect",
         "broker": "66623105826c1e88",
@@ -232,7 +241,7 @@
         "rap": true,
         "rh": 0,
         "inputs": 0,
-        "x": 230,
+        "x": 270,
         "y": 120,
         "wires": [
             [
@@ -262,12 +271,13 @@
         "id": "47775ad69ed4e788",
         "type": "sqlite",
         "z": "69ff56bb537a4ac8",
+        "d": true,
         "mydb": "d19f5b6de6d0d94d",
         "sqlquery": "msg.topic",
         "sql": "",
         "name": "Sensor DB",
         "x": 250,
-        "y": 180,
+        "y": 300,
         "wires": [
             []
         ]
@@ -284,6 +294,426 @@
         "x": 435,
         "y": 200,
         "wires": []
+    },
+    {
+        "id": "ba02c1f90b056879",
+        "type": "mqtt in",
+        "z": "69ff56bb537a4ac8",
+        "d": true,
+        "name": "",
+        "topic": "home/humidity",
+        "qos": "0",
+        "datatype": "auto-detect",
+        "broker": "66623105826c1e88",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 260,
+        "y": 180,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "d68fb6d8197702ad",
+        "type": "mqtt in",
+        "z": "69ff56bb537a4ac8",
+        "d": true,
+        "name": "",
+        "topic": "home/distance",
+        "qos": "0",
+        "datatype": "auto-detect",
+        "broker": "66623105826c1e88",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 260,
+        "y": 240,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "fcf69b94f31477d9",
+        "type": "mqtt in",
+        "z": "2001cee55d2db03c",
+        "name": "",
+        "topic": "test/subscriber",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "66623105826c1e88",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 320,
+        "y": 120,
+        "wires": [
+            [
+                "6e012a04ef61f8ba",
+                "2c965ff4659a7e9d"
+            ]
+        ]
+    },
+    {
+        "id": "6e012a04ef61f8ba",
+        "type": "debug",
+        "z": "2001cee55d2db03c",
+        "name": "debug 2",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 500,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "2c965ff4659a7e9d",
+        "type": "link out",
+        "z": "2001cee55d2db03c",
+        "name": "test_development_out",
+        "mode": "link",
+        "links": [
+            "adf8aca5b134b0f1",
+            "b9046319d45705ab"
+        ],
+        "x": 455,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "ffca19f00ccc07e5",
+        "type": "link in",
+        "z": "2001cee55d2db03c",
+        "name": "test_development_in",
+        "links": [
+            "6311150ea15c3364"
+        ],
+        "x": 185,
+        "y": 240,
+        "wires": [
+            [
+                "d0f6124165fa7fd5"
+            ]
+        ]
+    },
+    {
+        "id": "d0f6124165fa7fd5",
+        "type": "mqtt out",
+        "z": "2001cee55d2db03c",
+        "name": "",
+        "topic": "test/publisher",
+        "qos": "2",
+        "retain": "true",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "66623105826c1e88",
+        "x": 310,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "a50b704cec313b29",
+        "type": "ui-markdown",
+        "z": "605f4eb3c18c6bf9",
+        "group": "dba6c15a9ee7f94c",
+        "name": "",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "content": "# Welcome!\n\nDocumentation is scarce, so just explore around.",
+        "className": "",
+        "x": 410,
+        "y": 220,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "44c021c794096980",
+        "type": "ui-gauge",
+        "z": "605f4eb3c18c6bf9",
+        "name": "Temperature",
+        "group": "937e23260c10c1a6",
+        "order": 0,
+        "width": "3",
+        "height": "4",
+        "gtype": "gauge-34",
+        "gstyle": "rounded",
+        "title": "Temperature",
+        "units": "celsius",
+        "icon": "thermometer",
+        "prefix": "",
+        "suffix": "",
+        "segments": [
+            {
+                "from": "0",
+                "color": "#ac0606"
+            },
+            {
+                "from": "60",
+                "color": "#36c524"
+            },
+            {
+                "from": "80",
+                "color": "#ac0606"
+            }
+        ],
+        "min": "0",
+        "max": "100",
+        "sizeThickness": 16,
+        "sizeGap": 4,
+        "sizeKeyThickness": 8,
+        "styleRounded": true,
+        "styleGlow": false,
+        "className": "",
+        "x": 350,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "8fb9270429e8aa03",
+        "type": "ui-gauge",
+        "z": "605f4eb3c18c6bf9",
+        "name": "Humidity",
+        "group": "937e23260c10c1a6",
+        "order": 0,
+        "width": "3",
+        "height": "4",
+        "gtype": "gauge-34",
+        "gstyle": "needle",
+        "title": "Humidity",
+        "units": "percent",
+        "icon": "water",
+        "prefix": "",
+        "suffix": "",
+        "segments": [
+            {
+                "from": "0",
+                "color": "#5cd65c"
+            },
+            {
+                "from": "4",
+                "color": "#ffc800"
+            },
+            {
+                "from": "7",
+                "color": "#ea5353"
+            }
+        ],
+        "min": 0,
+        "max": "100",
+        "sizeThickness": 16,
+        "sizeGap": 4,
+        "sizeKeyThickness": 8,
+        "styleRounded": true,
+        "styleGlow": false,
+        "className": "",
+        "x": 500,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "92d47b2802c75982",
+        "type": "ui-gauge",
+        "z": "605f4eb3c18c6bf9",
+        "name": "Oxygen",
+        "group": "937e23260c10c1a6",
+        "order": 0,
+        "width": "3",
+        "height": "4",
+        "gtype": "gauge-34",
+        "gstyle": "needle",
+        "title": "Oxygen",
+        "units": "percent",
+        "icon": "water",
+        "prefix": "",
+        "suffix": "",
+        "segments": [
+            {
+                "from": "0",
+                "color": "#5cd65c"
+            },
+            {
+                "from": "25",
+                "color": "#ffc800"
+            },
+            {
+                "from": "50",
+                "color": "#ea5353"
+            },
+            {
+                "from": "100",
+                "color": "#951aad"
+            }
+        ],
+        "min": 0,
+        "max": "100",
+        "sizeThickness": 16,
+        "sizeGap": 4,
+        "sizeKeyThickness": 8,
+        "styleRounded": true,
+        "styleGlow": false,
+        "className": "",
+        "x": 340,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "24547cf023aa0a9b",
+        "type": "ui-gauge",
+        "z": "605f4eb3c18c6bf9",
+        "name": "UV",
+        "group": "937e23260c10c1a6",
+        "order": 0,
+        "width": "3",
+        "height": "4",
+        "gtype": "gauge-34",
+        "gstyle": "needle",
+        "title": "UV",
+        "units": "percent",
+        "icon": "sun",
+        "prefix": "",
+        "suffix": "",
+        "segments": [
+            {
+                "from": "0",
+                "color": "#5cd65c"
+            },
+            {
+                "from": "50",
+                "color": "#ffc800"
+            },
+            {
+                "from": "100",
+                "color": "#ea5353"
+            }
+        ],
+        "min": 0,
+        "max": "100",
+        "sizeThickness": 16,
+        "sizeGap": 4,
+        "sizeKeyThickness": 8,
+        "styleRounded": true,
+        "styleGlow": false,
+        "className": "",
+        "x": 490,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "adf8aca5b134b0f1",
+        "type": "link in",
+        "z": "605f4eb3c18c6bf9",
+        "name": "test_home_in",
+        "links": [
+            "2c965ff4659a7e9d"
+        ],
+        "x": 235,
+        "y": 380,
+        "wires": [
+            [
+                "44c021c794096980",
+                "8fb9270429e8aa03",
+                "92d47b2802c75982",
+                "24547cf023aa0a9b"
+            ]
+        ]
+    },
+    {
+        "id": "03c152fee51289ae",
+        "type": "ui-button",
+        "z": "605f4eb3c18c6bf9",
+        "group": "505582d98569caca",
+        "name": "",
+        "label": "button",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "Request for water.",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 490,
+        "y": 480,
+        "wires": [
+            [
+                "6311150ea15c3364",
+                "655997ba1f7f152e"
+            ]
+        ]
+    },
+    {
+        "id": "6311150ea15c3364",
+        "type": "link out",
+        "z": "605f4eb3c18c6bf9",
+        "name": "test_home_out",
+        "mode": "link",
+        "links": [
+            "ffca19f00ccc07e5"
+        ],
+        "x": 635,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "655997ba1f7f152e",
+        "type": "debug",
+        "z": "605f4eb3c18c6bf9",
+        "name": "debug 3",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 680,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "c2225c989f972acf",
+        "type": "ui-text-input",
+        "z": "605f4eb3c18c6bf9",
+        "group": "505582d98569caca",
+        "name": "",
+        "label": "text",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "topic": "topic",
+        "topicType": "msg",
+        "mode": "text",
+        "delay": 300,
+        "passthru": true,
+        "sendOnDelay": false,
+        "sendOnBlur": true,
+        "sendOnEnter": true,
+        "className": "",
+        "x": 490,
+        "y": 540,
+        "wires": [
+            [
+                "655997ba1f7f152e",
+                "6311150ea15c3364"
+            ]
+        ]
     },
     {
         "id": "4fc8edbaceecce78",
@@ -355,222 +785,6 @@
         ]
     },
     {
-        "id": "a50b704cec313b29",
-        "type": "ui-markdown",
-        "z": "605f4eb3c18c6bf9",
-        "group": "dba6c15a9ee7f94c",
-        "name": "",
-        "order": 0,
-        "width": 0,
-        "height": 0,
-        "content": "# Welcome!\n\nDocumentation is scarce, so just explore around.",
-        "className": "",
-        "x": 410,
-        "y": 220,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "44c021c794096980",
-        "type": "ui-gauge",
-        "z": "605f4eb3c18c6bf9",
-        "name": "Temperature",
-        "group": "937e23260c10c1a6",
-        "order": 0,
-        "width": "3",
-        "height": "4",
-        "gtype": "gauge-34",
-        "gstyle": "rounded",
-        "title": "Temperature",
-        "units": "celsius",
-        "icon": "thermometer",
-        "prefix": "",
-        "suffix": "",
-        "segments": [
-            {
-                "from": "40",
-                "color": "#ea5353"
-            },
-            {
-                "from": "60",
-                "color": "#36c524"
-            },
-            {
-                "from": "80",
-                "color": "#ac0606"
-            }
-        ],
-        "min": "40",
-        "max": "100",
-        "sizeThickness": 16,
-        "sizeGap": 4,
-        "sizeKeyThickness": 8,
-        "styleRounded": true,
-        "styleGlow": false,
-        "className": "",
-        "x": 350,
-        "y": 320,
-        "wires": []
-    },
-    {
-        "id": "8fb9270429e8aa03",
-        "type": "ui-gauge",
-        "z": "605f4eb3c18c6bf9",
-        "name": "Humidity",
-        "group": "937e23260c10c1a6",
-        "order": 0,
-        "width": "3",
-        "height": "4",
-        "gtype": "gauge-34",
-        "gstyle": "needle",
-        "title": "Humidity",
-        "units": "percent",
-        "icon": "water",
-        "prefix": "",
-        "suffix": "",
-        "segments": [
-            {
-                "from": "0",
-                "color": "#5cd65c"
-            },
-            {
-                "from": "4",
-                "color": "#ffc800"
-            },
-            {
-                "from": "7",
-                "color": "#ea5353"
-            }
-        ],
-        "min": 0,
-        "max": "100",
-        "sizeThickness": 16,
-        "sizeGap": 4,
-        "sizeKeyThickness": 8,
-        "styleRounded": true,
-        "styleGlow": false,
-        "className": "",
-        "x": 500,
-        "y": 320,
-        "wires": []
-    },
-    {
-        "id": "4c2ad07f8c593b3f",
-        "type": "ui-slider",
-        "z": "605f4eb3c18c6bf9",
-        "group": "505582d98569caca",
-        "name": "",
-        "label": "slider",
-        "tooltip": "",
-        "order": 0,
-        "width": 0,
-        "height": 0,
-        "passthru": false,
-        "outs": "all",
-        "topic": "topic",
-        "topicType": "msg",
-        "thumbLabel": true,
-        "min": "40",
-        "max": "100",
-        "step": "1",
-        "className": "",
-        "x": 210,
-        "y": 380,
-        "wires": [
-            [
-                "8fb9270429e8aa03",
-                "44c021c794096980",
-                "24547cf023aa0a9b",
-                "92d47b2802c75982"
-            ]
-        ]
-    },
-    {
-        "id": "92d47b2802c75982",
-        "type": "ui-gauge",
-        "z": "605f4eb3c18c6bf9",
-        "name": "Oxygen",
-        "group": "937e23260c10c1a6",
-        "order": 0,
-        "width": "3",
-        "height": "4",
-        "gtype": "gauge-34",
-        "gstyle": "needle",
-        "title": "Humidity",
-        "units": "percent",
-        "icon": "water",
-        "prefix": "",
-        "suffix": "",
-        "segments": [
-            {
-                "from": "0",
-                "color": "#5cd65c"
-            },
-            {
-                "from": "4",
-                "color": "#ffc800"
-            },
-            {
-                "from": "7",
-                "color": "#ea5353"
-            }
-        ],
-        "min": 0,
-        "max": "100",
-        "sizeThickness": 16,
-        "sizeGap": 4,
-        "sizeKeyThickness": 8,
-        "styleRounded": true,
-        "styleGlow": false,
-        "className": "",
-        "x": 500,
-        "y": 420,
-        "wires": []
-    },
-    {
-        "id": "24547cf023aa0a9b",
-        "type": "ui-gauge",
-        "z": "605f4eb3c18c6bf9",
-        "name": "UV",
-        "group": "937e23260c10c1a6",
-        "order": 0,
-        "width": "3",
-        "height": "4",
-        "gtype": "gauge-34",
-        "gstyle": "needle",
-        "title": "Humidity",
-        "units": "percent",
-        "icon": "water",
-        "prefix": "",
-        "suffix": "",
-        "segments": [
-            {
-                "from": "0",
-                "color": "#5cd65c"
-            },
-            {
-                "from": "4",
-                "color": "#ffc800"
-            },
-            {
-                "from": "7",
-                "color": "#ea5353"
-            }
-        ],
-        "min": 0,
-        "max": "100",
-        "sizeThickness": 16,
-        "sizeGap": 4,
-        "sizeKeyThickness": 8,
-        "styleRounded": true,
-        "styleGlow": false,
-        "className": "",
-        "x": 330,
-        "y": 420,
-        "wires": []
-    },
-    {
         "id": "3167bd5a8dad6729",
         "type": "ui-chart",
         "z": "667d120e171461ba",
@@ -585,15 +799,15 @@
         "xAxisPropertyType": "msg",
         "xAxisType": "time",
         "yAxisProperty": "",
-        "ymin": "",
-        "ymax": "",
+        "ymin": "0",
+        "ymax": "100",
         "action": "append",
         "pointShape": "circle",
         "pointRadius": 4,
         "showLegend": true,
-        "removeOlder": 1,
-        "removeOlderUnit": "3600",
-        "removeOlderPoints": "",
+        "removeOlder": "1",
+        "removeOlderUnit": "60",
+        "removeOlderPoints": "100",
         "colors": [
             "#1f77b4",
             "#aec7e8",
@@ -632,26 +846,15 @@
         ]
     },
     {
-        "id": "3a3a3aa7230f1d61",
-        "type": "ui-slider",
+        "id": "b9046319d45705ab",
+        "type": "link in",
         "z": "667d120e171461ba",
-        "group": "6763788d20d8c005",
-        "name": "",
-        "label": "slider",
-        "tooltip": "",
-        "order": 0,
-        "width": 0,
-        "height": 0,
-        "passthru": false,
-        "outs": "all",
-        "topic": "topic",
-        "topicType": "msg",
-        "thumbLabel": true,
-        "min": 0,
-        "max": 10,
-        "step": 1,
-        "className": "",
-        "x": 230,
+        "name": "test_in",
+        "links": [
+            "2c965ff4659a7e9d",
+            "d7f82a77f2d08f58"
+        ],
+        "x": 275,
         "y": 200,
         "wires": [
             [
