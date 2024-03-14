@@ -1,0 +1,12 @@
+{
+    "name": "dashboard",
+    "description": "A simple dashboard for the smart irrigation system.",
+    "version": "0.0.1",
+    "dependencies": {},
+    "node-red": {
+        "settings": {
+            "flowFile": "flows.json",
+            "credentialsFile": "flows_cred.json"
+        }
+    }
+}
