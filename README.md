@@ -15,3 +15,5 @@
 5. In nodered, install dependencies.
    1. `@flowfuse/node-red-dashboard`
    2. `node-red-node-sqlite`
+  
+   http://192.168.137.22:1880/dashboard/page1
