@@ -1,0 +1,511 @@
+[
+    {
+        "id": "605f4eb3c18c6bf9",
+        "type": "tab",
+        "label": "Home",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "a50b704cec313b29",
+        "type": "ui-markdown",
+        "z": "605f4eb3c18c6bf9",
+        "group": "dba6c15a9ee7f94c",
+        "name": "",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "content": "# Welcome!\n\nDocumentation is scarce, so just explore around.",
+        "className": "",
+        "x": 410,
+        "y": 220,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "44c021c794096980",
+        "type": "ui-gauge",
+        "z": "605f4eb3c18c6bf9",
+        "name": "Temperature",
+        "group": "937e23260c10c1a6",
+        "order": 0,
+        "width": "3",
+        "height": "4",
+        "gtype": "gauge-34",
+        "gstyle": "rounded",
+        "title": "Temperature",
+        "units": "celsius",
+        "icon": "thermometer",
+        "prefix": "",
+        "suffix": "",
+        "segments": [
+            {
+                "from": "0",
+                "color": "#ac0606"
+            },
+            {
+                "from": "60",
+                "color": "#36c524"
+            },
+            {
+                "from": "80",
+                "color": "#ac0606"
+            }
+        ],
+        "min": "0",
+        "max": "100",
+        "sizeThickness": 16,
+        "sizeGap": 4,
+        "sizeKeyThickness": 8,
+        "styleRounded": true,
+        "styleGlow": false,
+        "className": "",
+        "x": 330,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "8fb9270429e8aa03",
+        "type": "ui-gauge",
+        "z": "605f4eb3c18c6bf9",
+        "name": "Humidity",
+        "group": "937e23260c10c1a6",
+        "order": 0,
+        "width": "3",
+        "height": "4",
+        "gtype": "gauge-34",
+        "gstyle": "needle",
+        "title": "Humidity",
+        "units": "percent",
+        "icon": "water",
+        "prefix": "",
+        "suffix": "",
+        "segments": [
+            {
+                "from": "0",
+                "color": "#5cd65c"
+            },
+            {
+                "from": "4",
+                "color": "#ffc800"
+            },
+            {
+                "from": "7",
+                "color": "#ea5353"
+            }
+        ],
+        "min": 0,
+        "max": "100",
+        "sizeThickness": 16,
+        "sizeGap": 4,
+        "sizeKeyThickness": 8,
+        "styleRounded": true,
+        "styleGlow": false,
+        "className": "",
+        "x": 500,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "92d47b2802c75982",
+        "type": "ui-gauge",
+        "z": "605f4eb3c18c6bf9",
+        "name": "Oxygen",
+        "group": "937e23260c10c1a6",
+        "order": 0,
+        "width": "3",
+        "height": "4",
+        "gtype": "gauge-34",
+        "gstyle": "needle",
+        "title": "Oxygen",
+        "units": "percent",
+        "icon": "water",
+        "prefix": "",
+        "suffix": "",
+        "segments": [
+            {
+                "from": "0",
+                "color": "#5cd65c"
+            },
+            {
+                "from": "25",
+                "color": "#ffc800"
+            },
+            {
+                "from": "50",
+                "color": "#ea5353"
+            },
+            {
+                "from": "100",
+                "color": "#951aad"
+            }
+        ],
+        "min": 0,
+        "max": "100",
+        "sizeThickness": 16,
+        "sizeGap": 4,
+        "sizeKeyThickness": 8,
+        "styleRounded": true,
+        "styleGlow": false,
+        "className": "",
+        "x": 340,
+        "y": 440,
+        "wires": []
+    },
+    {
+        "id": "24547cf023aa0a9b",
+        "type": "ui-gauge",
+        "z": "605f4eb3c18c6bf9",
+        "name": "UV",
+        "group": "937e23260c10c1a6",
+        "order": 0,
+        "width": "3",
+        "height": "4",
+        "gtype": "gauge-34",
+        "gstyle": "needle",
+        "title": "UV",
+        "units": "percent",
+        "icon": "sun",
+        "prefix": "",
+        "suffix": "",
+        "segments": [
+            {
+                "from": "0",
+                "color": "#5cd65c"
+            },
+            {
+                "from": "50",
+                "color": "#ffc800"
+            },
+            {
+                "from": "100",
+                "color": "#ea5353"
+            }
+        ],
+        "min": 0,
+        "max": "100",
+        "sizeThickness": 16,
+        "sizeGap": 4,
+        "sizeKeyThickness": 8,
+        "styleRounded": true,
+        "styleGlow": false,
+        "className": "",
+        "x": 490,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "03c152fee51289ae",
+        "type": "ui-button",
+        "z": "605f4eb3c18c6bf9",
+        "group": "505582d98569caca",
+        "name": "",
+        "label": "button",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "Request for water.",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 490,
+        "y": 480,
+        "wires": [
+            [
+                "6311150ea15c3364",
+                "655997ba1f7f152e"
+            ]
+        ]
+    },
+    {
+        "id": "6311150ea15c3364",
+        "type": "link out",
+        "z": "605f4eb3c18c6bf9",
+        "name": "test_home_out",
+        "mode": "link",
+        "links": [
+            "ffca19f00ccc07e5"
+        ],
+        "x": 635,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "655997ba1f7f152e",
+        "type": "debug",
+        "z": "605f4eb3c18c6bf9",
+        "name": "debug 3",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 680,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "c2225c989f972acf",
+        "type": "ui-text-input",
+        "z": "605f4eb3c18c6bf9",
+        "group": "505582d98569caca",
+        "name": "",
+        "label": "text",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "topic": "topic",
+        "topicType": "msg",
+        "mode": "text",
+        "delay": 300,
+        "passthru": true,
+        "sendOnDelay": false,
+        "sendOnBlur": true,
+        "sendOnEnter": true,
+        "className": "",
+        "x": 490,
+        "y": 540,
+        "wires": [
+            [
+                "655997ba1f7f152e",
+                "6311150ea15c3364"
+            ]
+        ]
+    },
+    {
+        "id": "575c66a24cd6001e",
+        "type": "ui-button",
+        "z": "605f4eb3c18c6bf9",
+        "group": "505582d98569caca",
+        "name": "",
+        "label": "Button On Relay",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "{\"state\": \"ON\"}",
+        "payloadType": "json",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 480,
+        "y": 640,
+        "wires": [
+            [
+                "c638f03d542bcb70",
+                "0361abf3013601bd"
+            ]
+        ]
+    },
+    {
+        "id": "aedaa04fcbad2c09",
+        "type": "link in",
+        "z": "605f4eb3c18c6bf9",
+        "name": "link in 2",
+        "links": [
+            "2c965ff4659a7e9d"
+        ],
+        "x": 205,
+        "y": 380,
+        "wires": [
+            [
+                "44c021c794096980",
+                "92d47b2802c75982",
+                "8fb9270429e8aa03",
+                "24547cf023aa0a9b"
+            ]
+        ]
+    },
+    {
+        "id": "c638f03d542bcb70",
+        "type": "debug",
+        "z": "605f4eb3c18c6bf9",
+        "name": "debug 5",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 720,
+        "y": 680,
+        "wires": []
+    },
+    {
+        "id": "3022639020b53454",
+        "type": "ui-button",
+        "z": "605f4eb3c18c6bf9",
+        "group": "505582d98569caca",
+        "name": "",
+        "label": "Button Off Relay",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "{\"state\": \"OFF\"}",
+        "payloadType": "json",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 480,
+        "y": 720,
+        "wires": [
+            [
+                "0361abf3013601bd",
+                "c638f03d542bcb70"
+            ]
+        ]
+    },
+    {
+        "id": "0361abf3013601bd",
+        "type": "mqtt out",
+        "z": "605f4eb3c18c6bf9",
+        "name": "",
+        "topic": "test/relay",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "1531310d33b65b73",
+        "x": 740,
+        "y": 620,
+        "wires": []
+    },
+    {
+        "id": "dba6c15a9ee7f94c",
+        "type": "ui-group",
+        "name": "home-g1",
+        "page": "f8d91601b2715fb6",
+        "width": "6",
+        "height": "1",
+        "order": -1,
+        "showTitle": false,
+        "className": "",
+        "visible": "true",
+        "disabled": "false"
+    },
+    {
+        "id": "937e23260c10c1a6",
+        "type": "ui-group",
+        "name": "home-g2",
+        "page": "f8d91601b2715fb6",
+        "width": "6",
+        "height": "1",
+        "order": -1,
+        "showTitle": false,
+        "className": "",
+        "visible": "true",
+        "disabled": "false"
+    },
+    {
+        "id": "505582d98569caca",
+        "type": "ui-group",
+        "name": "home-g3",
+        "page": "f8d91601b2715fb6",
+        "width": "6",
+        "height": "1",
+        "order": -1,
+        "showTitle": false,
+        "className": "",
+        "visible": "true",
+        "disabled": "false"
+    },
+    {
+        "id": "1531310d33b65b73",
+        "type": "mqtt-broker",
+        "name": "",
+        "broker": "192.168.1.225",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "f8d91601b2715fb6",
+        "type": "ui-page",
+        "name": "Home",
+        "ui": "9a883bc2609897a4",
+        "path": "/page1",
+        "icon": "home",
+        "layout": "notebook",
+        "theme": "dade95786b8d794d",
+        "order": -1,
+        "className": "",
+        "visible": "true",
+        "disabled": "false"
+    },
+    {
+        "id": "9a883bc2609897a4",
+        "type": "ui-base",
+        "name": "ui-base",
+        "path": "/dashboard",
+        "includeClientData": true,
+        "acceptsClientConfig": [
+            "ui-notification",
+            "ui-control"
+        ],
+        "showPathInSidebar": false,
+        "navigationStyle": "default"
+    },
+    {
+        "id": "dade95786b8d794d",
+        "type": "ui-theme",
+        "name": "Default",
+        "colors": {
+            "surface": "#ffffff",
+            "primary": "#0094ce",
+            "bgPage": "#eeeeee",
+            "groupBg": "#ffffff",
+            "groupOutline": "#cccccc"
+        },
+        "sizes": {
+            "pagePadding": "12px",
+            "groupGap": "12px",
+            "groupBorderRadius": "4px",
+            "widgetGap": "12px"
+        }
+    }
+]
