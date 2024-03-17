@@ -358,7 +358,7 @@
         "rh": 0,
         "inputs": 0,
         "x": 290,
-        "y": 120,
+        "y": 420,
         "wires": [
             []
         ]
@@ -377,7 +377,7 @@
         "statusVal": "",
         "statusType": "auto",
         "x": 700,
-        "y": 200,
+        "y": 300,
         "wires": []
     },
     {
@@ -390,7 +390,7 @@
         "sql": "",
         "name": "Sensor DB",
         "x": 310,
-        "y": 360,
+        "y": 460,
         "wires": [
             []
         ]
@@ -409,7 +409,7 @@
         "rh": 0,
         "inputs": 0,
         "x": 300,
-        "y": 200,
+        "y": 260,
         "wires": [
             [
                 "c4524e2bf42a72e5"
@@ -420,10 +420,9 @@
         "id": "d68fb6d8197702ad",
         "type": "mqtt in",
         "z": "69ff56bb537a4ac8",
-        "d": true,
         "name": "",
         "topic": "sensor/distance",
-        "qos": "0",
+        "qos": "2",
         "datatype": "auto-detect",
         "broker": "66623105826c1e88",
         "nl": false,
@@ -431,9 +430,12 @@
         "rh": 0,
         "inputs": 0,
         "x": 300,
-        "y": 280,
+        "y": 120,
         "wires": [
-            []
+            [
+                "9050665a1578b05b",
+                "5f4b8f84e72002e8"
+            ]
         ]
     },
     {
@@ -446,7 +448,7 @@
                 "t": "set",
                 "p": "payload",
                 "pt": "msg",
-                "to": "$round($number(payload.moisture_level))",
+                "to": "$round(payload)",
                 "tot": "jsonata"
             }
         ],
@@ -456,7 +458,7 @@
         "to": "",
         "reg": false,
         "x": 480,
-        "y": 200,
+        "y": 260,
         "wires": [
             [
                 "bd135f4ffd812749",
@@ -483,7 +485,7 @@
         "repair": false,
         "outputs": 1,
         "x": 670,
-        "y": 160,
+        "y": 260,
         "wires": [
             [
                 "ccb7983cd1028fc9"
@@ -507,7 +509,7 @@
         "className": "",
         "name": "",
         "x": 1190,
-        "y": 160,
+        "y": 260,
         "wires": []
     },
     {
@@ -530,7 +532,7 @@
         "to": "",
         "reg": false,
         "x": 820,
-        "y": 160,
+        "y": 260,
         "wires": [
             [
                 "ae422e133fad6be9"
@@ -548,7 +550,7 @@
             "b9046319d45705ab"
         ],
         "x": 635,
-        "y": 240,
+        "y": 340,
         "wires": []
     },
     {
@@ -569,12 +571,41 @@
         "allowrate": false,
         "outputs": 1,
         "x": 1000,
-        "y": 160,
+        "y": 260,
         "wires": [
             [
                 "94ba544262c812a6"
             ]
         ]
+    },
+    {
+        "id": "9050665a1578b05b",
+        "type": "debug",
+        "z": "69ff56bb537a4ac8",
+        "name": "debug 3",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 500,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "5f4b8f84e72002e8",
+        "type": "link out",
+        "z": "69ff56bb537a4ac8",
+        "name": "sensor/distance",
+        "mode": "link",
+        "links": [
+            "197c0360549264b5"
+        ],
+        "x": 455,
+        "y": 160,
+        "wires": []
     },
     {
         "id": "a50b704cec313b29",
@@ -597,16 +628,16 @@
         "id": "44c021c794096980",
         "type": "ui-gauge",
         "z": "605f4eb3c18c6bf9",
-        "name": "Temperature",
+        "name": "",
         "group": "937e23260c10c1a6",
         "order": 0,
         "width": "3",
         "height": "4",
         "gtype": "gauge-34",
         "gstyle": "rounded",
-        "title": "Temperature",
-        "units": "celsius",
-        "icon": "thermometer",
+        "title": "Tank Capacity",
+        "units": "percent",
+        "icon": "water",
         "prefix": "",
         "suffix": "",
         "segments": [
@@ -631,7 +662,7 @@
         "styleRounded": true,
         "styleGlow": false,
         "className": "",
-        "x": 350,
+        "x": 360,
         "y": 220,
         "wires": []
     },
@@ -725,55 +756,26 @@
         "z": "605f4eb3c18c6bf9",
         "group": "505582d98569caca",
         "name": "",
-        "label": "Water Relay On",
+        "label": "Request for Water",
         "order": 0,
-        "width": "3",
-        "height": "1",
+        "width": "0",
+        "height": "0",
         "passthru": false,
         "tooltip": "",
         "color": "",
         "bgcolor": "",
         "className": "",
         "icon": "",
-        "payload": "{\"waterRelay\": \"ON\"}",
-        "payloadType": "json",
+        "payload": "true",
+        "payloadType": "bool",
         "topic": "topic",
         "topicType": "msg",
-        "x": 360,
-        "y": 460,
+        "x": 370,
+        "y": 400,
         "wires": [
             [
                 "8e1d144fce4d9df4",
                 "f24f32488ff2aea0"
-            ]
-        ]
-    },
-    {
-        "id": "69d774eb4f7abe96",
-        "type": "ui-button",
-        "z": "605f4eb3c18c6bf9",
-        "group": "505582d98569caca",
-        "name": "",
-        "label": "Water Relay Off",
-        "order": 0,
-        "width": "3",
-        "height": "1",
-        "passthru": false,
-        "tooltip": "",
-        "color": "",
-        "bgcolor": "",
-        "className": "",
-        "icon": "",
-        "payload": "{\"waterRelay\": \"OFF\"}",
-        "payloadType": "json",
-        "topic": "topic",
-        "topicType": "msg",
-        "x": 360,
-        "y": 500,
-        "wires": [
-            [
-                "8e1d144fce4d9df4",
-                "b547b9fea69233cc"
             ]
         ]
     },
@@ -783,16 +785,16 @@
         "z": "605f4eb3c18c6bf9",
         "name": "",
         "topic": "relay/water",
-        "qos": "",
+        "qos": "1",
         "retain": "",
         "respTopic": "",
         "contentType": "",
         "userProps": "",
         "correl": "",
         "expiry": "",
-        "broker": "e0bfbab695ad18fc",
+        "broker": "66623105826c1e88",
         "x": 570,
-        "y": 400,
+        "y": 440,
         "wires": []
     },
     {
@@ -816,7 +818,7 @@
         "topic": "topic",
         "topicType": "msg",
         "x": 360,
-        "y": 560,
+        "y": 500,
         "wires": [
             [
                 "9564bcc5d14d5e58",
@@ -845,7 +847,7 @@
         "topic": "topic",
         "topicType": "msg",
         "x": 360,
-        "y": 600,
+        "y": 540,
         "wires": [
             [
                 "9564bcc5d14d5e58",
@@ -868,7 +870,7 @@
         "expiry": "",
         "broker": "e0bfbab695ad18fc",
         "x": 560,
-        "y": 560,
+        "y": 500,
         "wires": []
     },
     {
@@ -879,16 +881,16 @@
         "position": "top right",
         "colorDefault": true,
         "color": "#000000",
-        "displayTime": "1",
+        "displayTime": "2",
         "showCountdown": true,
         "outputs": 0,
-        "allowDismiss": true,
+        "allowDismiss": false,
         "dismissText": "Close",
         "raw": false,
         "className": "",
         "name": "Water Relay Output",
         "x": 790,
-        "y": 460,
+        "y": 400,
         "wires": []
     },
     {
@@ -908,7 +910,7 @@
         "className": "",
         "name": "Light Relay Output",
         "x": 590,
-        "y": 620,
+        "y": 560,
         "wires": []
     },
     {
@@ -978,33 +980,6 @@
         "wires": []
     },
     {
-        "id": "b547b9fea69233cc",
-        "type": "change",
-        "z": "605f4eb3c18c6bf9",
-        "name": "",
-        "rules": [
-            {
-                "t": "set",
-                "p": "payload",
-                "pt": "msg",
-                "to": "Water relay turned off!",
-                "tot": "str"
-            }
-        ],
-        "action": "",
-        "property": "",
-        "from": "",
-        "to": "",
-        "reg": false,
-        "x": 580,
-        "y": 500,
-        "wires": [
-            [
-                "78ab08d7654143e5"
-            ]
-        ]
-    },
-    {
         "id": "f24f32488ff2aea0",
         "type": "change",
         "z": "605f4eb3c18c6bf9",
@@ -1014,7 +989,7 @@
                 "t": "set",
                 "p": "payload",
                 "pt": "msg",
-                "to": "Water relay turned on!",
+                "to": "Requested for water! Please wait for a few seconds.",
                 "tot": "str"
             }
         ],
@@ -1024,10 +999,26 @@
         "to": "",
         "reg": false,
         "x": 580,
-        "y": 460,
+        "y": 400,
         "wires": [
             [
                 "78ab08d7654143e5"
+            ]
+        ]
+    },
+    {
+        "id": "197c0360549264b5",
+        "type": "link in",
+        "z": "605f4eb3c18c6bf9",
+        "name": "sensor/distance",
+        "links": [
+            "5f4b8f84e72002e8"
+        ],
+        "x": 225,
+        "y": 220,
+        "wires": [
+            [
+                "44c021c794096980"
             ]
         ]
     },
