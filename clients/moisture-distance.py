@@ -42,7 +42,7 @@ class ClientOne:
         # Set the speed of sound to 34300 cm/s for ultrasonic sensor
         self.SPEED_OF_SOUND = 34300  # in cm/s
         # Set the number of readings to 10 for ultrasonic sensor
-        self.NUM_READINGS = 10
+        self.NUM_READINGS = 5
         # Initialize the exponential moving average to None
         self.ema = None
         # Create the I2C bus
@@ -51,6 +51,11 @@ class ClientOne:
         self.ads = ADS.ADS1115(self.i2c)
         # Create an analog input channel for the ADS1115
         self.channel = AnalogIn(self.ads, ADS.P0)
+        self.pi=pigpio.pi() #using pigpio instead of gpio lib
+        self.pi.set_mode(self.TRIG_PIN,pigpio.OUTPUT)
+        self.pi.set_mode(self.ECHO_PIN,pigpio.INPUT)
+        self.pi.write(self.TRIG_PIN,0)
+        time.sleep(2) #sleep the system for 2s so that all pins are initialize before reading the sensors
 
     def on_connect(self, client, userdata, flags, reason_code, properties):
         print(f"Connected with result code {reason_code}")
@@ -142,50 +147,42 @@ class ClientOne:
         ).start()
 
     def get_distance(self):
-        pigpio.write(self.TRIG_PIN, 1)
+        self.pi.write(self.TRIG_PIN,1)
         time.sleep(0.00001)
-        pigpio.write(self.TRIG_PIN, 0)
-
-        start_time = time.time()
-        while pigpio.read(self.ECHO_PIN) == 0:
-            if time.time() - start_time > 1:  # Timeout after 1 second
+        self.pi.write(self.TRIG_PIN,0)
+        
+        start_time=time.time()
+        while self.pi.read(self.ECHO_PIN)==0:
+            if time.time()-start_time>1:
                 return None
-
-        start_time = time.time()
-        while pigpio.read(self.ECHO_PIN) == 1:
-            if time.time() - start_time > 1:  # Timeout after 1 second
+         
+        start_time=time.time()   
+        while self.pi.read(self.ECHO_PIN)==1:
+            if time.time()-start_time>1:
                 return None
-
-        stop_time = time.time()
-
-        elapsed_time = stop_time - start_time
-        distance = (elapsed_time * self.SPEED_OF_SOUND) / 2
-
+            
+        stop_time=time.time()
+        
+        elapsed_time=stop_time-start_time
+        distance=(elapsed_time*self.SPEED_OF_SOUND)/2
+        
+        if distance >20:
+            return None
+        
         return distance
 
     def read_and_publish_distance(self, topic):
-        # Set pin modes
-        pigpio.set_mode(self.TRIG_PIN, pigpio.OUTPUT)
-        pigpio.set_mode(self.ECHO_PIN, pigpio.INPUT)
-
-        # Reset trigger pin
-        pigpio.write(self.TRIG_PIN, 0)
-        time.sleep(2)
-
-        try:
-            while True:
-                distances = [self.get_distance() for _ in range(self.NUM_READINGS)]
-                distances = [d for d in distances if d is not None]
-                if distances:
-                    median_distance = statistics.median(distances)
-                    print(f"Median Distance: {median_distance:.2f} cm")
-                    self.publish(topic, {"distance": "{:.2f}".format(median_distance)})
-                else:
-                    print("No valid readings")
-                time.sleep(self.SLEEP_TIME)
-        except KeyboardInterrupt:
-            print("Measurement stopped by User")
-            pigpio.stop()
+        distances = [self.get_distance() for _ in range(self.NUM_READINGS)]
+        distances = [d for d in distances if d is not None]
+        if distances:
+            median_distance = statistics.median(distances)
+            # Cap the distance at 20cm and convert to a percentage
+            capped_distance = min(median_distance, 20)
+            percentage = (capped_distance / 20) * 100
+            inverted_percentage = 100 - percentage  # Invert the percentage, so that the nearer the water level it is the higher the percentage
+            self.publish(topic, {'percentage': "{:.2f}".format(inverted_percentage)})
+        else:
+            print("No valid readings")
 
     def publish_distance(self, topic):
         return
