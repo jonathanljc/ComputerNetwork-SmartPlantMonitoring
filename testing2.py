@@ -2,7 +2,7 @@ import paho.mqtt.client as mqtt
 
 def on_connect(client, userdata, flags, rc, properties):
     print("Connected with result code "+str(rc))
-    client.subscribe("home/moisture")
+    client.subscribe("home/distance")
 
 def on_message(client, userdata, msg):
     print(msg.topic+" "+str(msg.payload))

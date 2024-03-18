@@ -81,48 +81,7 @@ class MQTTClient:
     def publish(self, topic, message):
         self.mqttc.publish(topic, json.dumps(message))
 
-    def read_and_publish_moisture_level(self, topic):
-        # Read the ADC value
-        adc_value = self.channel.value
-        # Add the new reading to the deque
-        self.readings.append(adc_value)
-        # If we have enough readings, check if the current reading is an outlier
-        if len(self.readings) == self.max_readings:
-            mean = np.mean(self.readings)
-            std_dev = np.std(self.readings)
-            z_score = (adc_value - mean) / std_dev
-            if abs(z_score) > self.z_threshold:
-                # This is an outlier, ignore it
-                return
-        # If this is the first reading, initialize the EMA to the current reading
-        if self.ema is None:
-            self.ema = adc_value
-        else:
-            # Update the EMA
-            self.ema = (self.ema_weight * adc_value) + ((1 - self.ema_weight) * self.ema)
-        # Calculate the moisture level based on the EMA
-        moisture_level = ((self.max_adc_value - self.ema) / (self.max_adc_value - self.min_adc_value)) * 100
-        # Ensure the moisture level is between 0 and 100%
-        moisture_level = max(0, min(moisture_level, 100))
-        # Publish the moisture level
-        self.publish(topic, {'moisture_level': "{:.2f}".format(moisture_level)})
-        if 20<=moisture_level<=30: #20-30% inclusive then activate water pump for 3seconds
-            threading.Thread(target=lambda: (
-                self.control_relay({'state': 'ON'}),
-                time.sleep(3),
-                self.control_relay({'state': 'OFF'}),
-                time.sleep(10)
-            )).start()
-    # control the relay on server side tbc havent test yet. 
-    def control_relay(self, message):
-        # Assuming the message is a dictionary with a 'state' key
-        state = message.get('state')
-        if state == 'ON':
-            GPIO.output(self.relay_pin, GPIO.HIGH)
-        elif state == 'OFF':
-            GPIO.output(self.relay_pin, GPIO.LOW)
-        else:
-            print(f"Invalid state: {state}")
+    
             
     def get_distance(self):
         pi.write(self.TRIG_PIN, 1)

@@ -42,7 +42,7 @@ class MQTTClient:
         #GPIO.setup(self.relay_pin, GPIO.OUT)
         self.TRIG_PIN=11
         self.ECHO_PIN=12
-        self.NUM_READINGS=10
+        self.NUM_READINGS=5
         self.SPEED_OF_SOUND=34300
         self.SLEEP_TIME=1
         self.pi=pigpio.pi()
@@ -144,6 +144,10 @@ class MQTTClient:
         
         elapsed_time=stop_time-start_time
         distance=(elapsed_time*self.SPEED_OF_SOUND)/2
+        
+        if distance >20:
+            return None
+        
         return distance
 
     def read_and_publish_distance(self, topic):
@@ -151,8 +155,11 @@ class MQTTClient:
         distances = [d for d in distances if d is not None]
         if distances:
             median_distance = statistics.median(distances)
-            print(f"Median Distance: {median_distance:.2f} cm")
-            self.publish(topic, {'distance': "{:.2f}".format(median_distance)})
+            # Cap the distance at 20cm and convert to a percentage
+            capped_distance = min(median_distance, 20)
+            percentage = (capped_distance / 20) * 100
+            inverted_percentage = 100 - percentage  # Invert the percentage
+            self.publish(topic, {'percentage': "{:.2f}".format(inverted_percentage)})  # Only publish the inverted percentage
         else:
             print("No valid readings")
 
