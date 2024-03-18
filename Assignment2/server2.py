@@ -1,5 +1,6 @@
 import socket
 import threading
+import re
 
 
 class Server:
@@ -192,6 +193,16 @@ def handle_group_setup(client_socket, client_names, groups, owner_dict, message)
         group_name = group_name.strip()
         users_list = users.split(",")
 
+        # Regular expression pattern to match alphanumeric characters
+        alphanumeric_pattern = re.compile("^[a-zA-Z0-9_]+$")
+
+        # Check if the group name contains only alphanumeric characters
+        if not alphanumeric_pattern.match(group_name):
+            client_socket.sendall(
+                "[Group name can only contain alphanumeric characters.]".encode("utf-8")
+            )
+            return
+
         if group_name in groups:
             client_socket.sendall(
                 f"[Group '{group_name}' already exists.]".encode("utf-8")
@@ -202,7 +213,7 @@ def handle_group_setup(client_socket, client_names, groups, owner_dict, message)
         client_username = client_names[client_socket]
         if client_username not in users_list:
             client_socket.sendall(
-                f"[You must be be part of the group create it.]".encode("utf-8")
+                f"[You must be a part of the group to create it.]".encode("utf-8")
             )
             return
 
@@ -221,7 +232,7 @@ def handle_group_setup(client_socket, client_names, groups, owner_dict, message)
                 if name == username:
                     print(f"Adding {username} to group {group_name}")
                     user_socket.sendall(
-                        f"[You have been added to the {group_name} group]".encode(
+                        f"[[You are enrolled in the {group_name} group]".encode(
                             "utf-8"
                         )
                     )
