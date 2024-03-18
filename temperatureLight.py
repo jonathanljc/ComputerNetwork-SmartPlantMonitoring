@@ -1,13 +1,13 @@
-#humid/temperature
-#led light
+#humid/temperature & light sensor
+#TO DO: turn on led light
 
 # For Temperature and Humidity sensor:
-#pip3 install adafruit-circuitpython-dht
-#sudo apt-get install libgpiod2
-#pip3 install adafruit-blinka
+# pip3 install adafruit-circuitpython-dht
+# sudo apt-get install libgpiod2
+# pip3 install adafruit-blinka
 
 # For UV Light sensor
-#pip3 install adafruit-circuitpython-ltr390
+# pip3 install adafruit-circuitpython-ltr390
 
 import time
 import adafruit_dht
@@ -16,6 +16,8 @@ import board
 import paho.mqtt.client as mqtt
 import json
 
+# Edit this to suit your GPIO pin for Temp/Humid Sensor
+# Board.DX where X is GPIO number like GPIO4 is D4, GPIO24 is D24
 dht_device = adafruit_dht.DHT11(board.D4)
 
 class MQTTClient:
@@ -29,21 +31,12 @@ class MQTTClient:
     def on_connect(self, client, userdata, flags, reason_code, properties):
         print(f"Connected with result code {reason_code}")
         # Subscribe to a topic 
-        # self.mqttc.subscribe("onrelay")
+        self.mqttc.subscribe("home/temp")
 
     def on_message(self, client, userdata, msg):
-        try:
-            # Attempt to parse the message payload as JSON
-            message = json.loads(msg.payload.decode())
-            print(msg.topic, message)
-            # Handle relay topic(rpi 1, water pump for webdashboard side when they turn on)
-            if msg.topic == 'onrelay':
-                # Control the relay based on the message
-                self.control_relay(message)
-            else:
-                print(f"Received message on unhandled topic: {msg.topic}")
-        except json.JSONDecodeError:
-            print(f"Could not parse message payload as JSON: {msg.payload}")
+        # Attempt to parse the message payload as JSON
+        message = json.loads(msg.payload.decode())
+        print(msg.topic, message)
 
     def start(self):
         self.mqttc.loop_start()
@@ -60,18 +53,19 @@ class MQTTClient:
     # Read temperature and humidity and UV light from sensor and publishes the data
     def readSensors(self, topic):
         try:
-            
+            # Sets up temperature & humidity sensor
             temperature_c = dht_device.temperature
             temperature_f = temperature_c * (9 / 5) + 32
             humidity = dht_device.humidity
 
+            # Sets up light sensor
             i2c = board.I2C()
             ltr = adafruit_ltr390.LTR390(i2c)
             uvLight = ltr
 
             print("Temp:{:.1f} C / {:.1f} F    Humidity: {}%".format(temperature_c, temperature_f, humidity))
             print("UV:{:.2f}".format(uvLight.uvi))
-            # Publish the moisture level
+            # Publish the temp, humid and UV index
             self.publish(topic, {
                 'temp': "{:.2f}".format(temperature_c), 
                 'humid':"{}%".format(humidity), 
