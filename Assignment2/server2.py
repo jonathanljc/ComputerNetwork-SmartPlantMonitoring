@@ -5,8 +5,8 @@ import threading
 class Server:
     should_stop = False
 
-    # Server initialisation method
-    # Sets up the host ip and port, prepares the sockets and threads
+    # Server initialization method
+    # Sets up the host IP and port, prepares the sockets and threads
     def __init__(self, host="localhost", port=8888):
         self.host = host
         self.port = port
@@ -27,9 +27,8 @@ class Server:
         self.running = True
         print(f"[*] Listening on {self.host}:{self.port}")
 
-    # Waits for client to enter username and does a check whether it already been used when entered
+    # Waits for the client to enter a username and checks if it has already been used
     def wait_for_username(self, client_socket: socket.socket):
-        # Optional: Set a timeout feature for the server.
         while True:
             username = client_socket.recv(1024).decode("utf-8").strip()
 
@@ -41,7 +40,7 @@ class Server:
 
     # Runs the server
     def run(self):
-        # Calls the start() method to start the server, if it is not already running
+        # Calls the start() method to start the server if it is not already running
         if not self.running:
             self.start()
 
@@ -54,7 +53,7 @@ class Server:
                 break
             print(f"[*] Accepted connection from {addr[0]}:{addr[1]}")
 
-            # Waits for client to enter their username
+            # Waits for the client to enter their username
             username = self.wait_for_username(client_socket)
 
             client_socket.sendall(f"Welcome {username}!".encode("utf-8"))
@@ -63,7 +62,7 @@ class Server:
             for client in self.client_sockets:
                 client.sendall(f"\n[{username} joined]".encode("utf-8"))
 
-            # Adds client to the list of client names
+            # Adds the client to the list of client names
             self.client_sockets.append(client_socket)
             self.client_names[client_socket] = username
 
@@ -82,13 +81,13 @@ class Server:
             self.threads.append(client_thread)
             client_thread.start()
 
-        # by the way, this code is never technically reached
+        # This code is never technically reached
         self.server_socket.close()
         print("Server closed.")
 
 
 # Method to handle a client quitting the chat
-# Removes name from list of users and notifies all users that this user has left
+# Removes the name from the list of users and notifies all users that this user has left
 def handle_quit(client_socket, clients, client_names):
     exiting_username = client_names[client_socket]
     print(f"[{exiting_username} has left the chat]")
@@ -97,14 +96,14 @@ def handle_quit(client_socket, clients, client_names):
         client.sendall(f"[{exiting_username}]: {message}".encode("utf-8"))
 
 
-# Method to send client the list of connected users
+# Method to send the client the list of connected users
 def handle_names(client_socket, client_names):
     names = ", ".join(client_names.values())
     client_socket.sendall(f"[Connected users: {names}]".encode("utf-8"))
     print(f"[{client_names[client_socket]} requested user list]")
 
 
-# Method to take client's personal message and send to the targeted user
+# Method to take the client's personal message and send it to the targeted user
 def handle_personal_message(client_socket, client_names, message):
     recipient_username, personal_message = message.split(" ", 1)
     recipient_username = recipient_username[1:]
@@ -118,7 +117,7 @@ def handle_personal_message(client_socket, client_names, message):
             return
 
 
-# Method for client to setup a group chat
+# Method for the client to set up a group chat
 def handle_group_setup(client_socket, client_names, groups, message):
     try:
         # Check if the format entered is correct when setting up a group
@@ -172,7 +171,7 @@ def handle_group_setup(client_socket, client_names, groups, message):
         client_socket.sendall(f"[Error setting up group: {e}]".encode("utf-8"))
 
 
-# Method for client to send a message in the group chat
+# Method for the client to send a message in the group chat
 def handle_group_send(client_socket, client_names, groups, message):
     try:
         # Check if the format entered is correct to send a group message
@@ -195,14 +194,14 @@ def handle_group_send(client_socket, client_names, groups, message):
 
         sender_username = client_names[client_socket]
 
-        # Check if client is inside the group
+        # Check if the client is inside the group
         if sender_username not in groups[group_name]:
             client_socket.sendall(
                 "[You are not a member of this group.]".encode("utf-8")
             )
             return
 
-        # Sends message to everyone in the group
+        # Sends a message to everyone in the group
         for username in groups[group_name]:
             if username != sender_username:
                 user_socket = [
@@ -224,10 +223,10 @@ def send_group_setup_notification(client_sockets, client_names, group_name, user
                 socket.sendall(notification.encode("utf-8"))
 
 
-# Method for client deleting a group
+# Method for the client deleting a group
 def handle_group_delete(client_socket, client_names, groups, message):
     try:
-        # Check if format entered is correct to delete the group
+        # Check if the format entered is correct to delete the group
         parts = message.split(maxsplit=2)
         if len(parts) < 2:
             client_socket.sendall(
@@ -237,7 +236,7 @@ def handle_group_delete(client_socket, client_names, groups, message):
 
         group_name = parts[-1].strip()  # Extract the last part as the group name
 
-        # Check if group exists
+        # Check if the group exists
         if group_name not in groups:
             client_socket.sendall(
                 f"[Group '{group_name}' does not exist.]".encode("utf-8")
@@ -261,7 +260,7 @@ def handle_group_delete(client_socket, client_names, groups, message):
         client_socket.sendall(f"[Error deleting group: {e}]".encode("utf-8"))
 
 
-# Method for client leaving a group
+# Method for the client leaving a group
 def handle_group_leave(client_socket, client_names, groups, message):
     try:
         # Check if the format entered is correct to leave the group
@@ -275,12 +274,12 @@ def handle_group_leave(client_socket, client_names, groups, message):
         _, _, group_name = parts
         group_name = group_name.strip()
 
-        # Check if group exists
+        # Check if the group exists
         if group_name not in groups:
             client_socket.sendall("[Group does not exist.]".encode("utf-8"))
             return
 
-        # Check if user is part of this group
+        # Check if the user is part of this group
         sender_username = client_names[client_socket]
         if sender_username not in groups[group_name]:
             client_socket.sendall(
@@ -288,7 +287,7 @@ def handle_group_leave(client_socket, client_names, groups, message):
             )
             return
 
-        # Removes user from the group
+        # Removes the user from the group
         groups[group_name].remove(sender_username)
 
         # Notifies clients that this user has left the group
@@ -303,7 +302,7 @@ def handle_group_leave(client_socket, client_names, groups, message):
         client_socket.sendall(f"[Error leaving group: {e}]".encode("utf-8"))
 
 
-# Methods that handles all the client's actions
+# Methods that handle all the client's actions
 def handle_client(client_socket, clients, client_names, groups):
     while True:
         try:
@@ -313,32 +312,32 @@ def handle_client(client_socket, clients, client_names, groups):
                 continue
             stripped = message.strip()
 
-            # If message is "@quit", calls handle_quit() to handle the client's quitting action
+            # If the message is "@quit", calls handle_quit() to handle the client's quitting action
             if stripped == "@quit":
                 handle_quit(client_socket, clients, client_names)
                 break
 
-            # If message is "@names", calls handle_names() to display names back to client
+            # If the message is "@names", calls handle_names() to display names back to the client
             elif stripped == "@names":
                 handle_names(client_socket, client_names)
 
-            # If message is "@group set",calls handle_group_setup() to setup the group
+            # If the message is "@group set",calls handle_group_setup() to setup the group
             elif stripped.startswith("@group set"):
                 handle_group_setup(client_socket, client_names, groups, stripped)
 
-            # If message is "@group send",calls handle_group_send() to send message to group
+            # If the message is "@group send",calls handle_group_send() to send a message to the group
             elif stripped.startswith("@group send"):
                 handle_group_send(client_socket, client_names, groups, stripped)
 
-            # If message is "@group delete",calls handle_group_delete() to delete group
+            # If the message is "@group delete",calls handle_group_delete() to delete the group
             elif stripped.startswith("@group delete"):
                 handle_group_delete(client_socket, client_names, groups, stripped)
 
-            # If message is "@group leave",calls handle_group_leave() to make the client leave the group
+            # If the message is "@group leave",calls handle_group_leave() to make the client leave the group
             elif stripped.startswith("@group leave"):
                 handle_group_leave(client_socket, client_names, groups, stripped)
 
-            # If message is "@xxxx",calls handle_personal_message() to help client send a private message to target
+            # If the message starts with "@xxxx",calls handle_personal_message() to help the client send a private message to the target
             elif stripped.startswith("@"):
                 handle_personal_message(client_socket, client_names, message)
             else:
@@ -358,7 +357,7 @@ def handle_client(client_socket, clients, client_names, groups):
 
 
 def main():
-    # Initialises the server and runs it
+    # Initializes the server and runs it
     server = Server()
     server.run()
 
