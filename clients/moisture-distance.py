@@ -51,11 +51,13 @@ class ClientOne:
         self.ads = ADS.ADS1115(self.i2c)
         # Create an analog input channel for the ADS1115
         self.channel = AnalogIn(self.ads, ADS.P0)
-        self.pi=pigpio.pi() #using pigpio instead of gpio lib
-        self.pi.set_mode(self.TRIG_PIN,pigpio.OUTPUT)
-        self.pi.set_mode(self.ECHO_PIN,pigpio.INPUT)
-        self.pi.write(self.TRIG_PIN,0)
-        time.sleep(2) #sleep the system for 2s so that all pins are initialize before reading the sensors
+        self.pi = pigpio.pi()  # using pigpio instead of gpio lib
+        self.pi.set_mode(self.TRIG_PIN, pigpio.OUTPUT)
+        self.pi.set_mode(self.ECHO_PIN, pigpio.INPUT)
+        self.pi.write(self.TRIG_PIN, 0)
+        time.sleep(
+            2
+        )  # sleep the system for 2s so that all pins are initialize before reading the sensors
 
     def on_connect(self, client, userdata, flags, reason_code, properties):
         print(f"Connected with result code {reason_code}")
@@ -65,6 +67,7 @@ class ClientOne:
     def on_message(self, client, userdata, msg):
         # Handle relay topic(rpi 1, water pump for webdashboard side when they turn on)
         if msg.topic == "relay/water":
+            print(msg.payload)
             self.request_moisture()
         else:
             print(f"Received message on unhandled topic: {msg.topic}")
@@ -82,7 +85,7 @@ class ClientOne:
     def publish(self, topic, message):
         self.mqttc.publish(topic, json.dumps(message), qos=2)
 
-    def read_moisture_level(self) -> float | None:
+    def read_moisture_level(self):
         # Read the ADC value.
         adc_value = self.channel.value
 
@@ -127,17 +130,23 @@ class ClientOne:
     def request_moisture(self):
         moisture_level = self.read_moisture_level()
 
-        if not (20 <= moisture_level <= 30):
-            return
+        # if not (20 <= moisture_level <= 30):
+        #     return
 
         print("Water Request Recieved!")
-        return
+
         # Currently, there is no check for spammed requests.
         threading.Thread(
             target=lambda: (
                 print("Thread was created!"),
                 GPIO.output(self.RELAY_PIN, GPIO.HIGH),
-                print(self.RELAY_PIN, "set to", GPIO.HIGH, "\nsleeping for 3 seconds"),
+                print(
+                    "GPIO",
+                    self.RELAY_PIN,
+                    "set to",
+                    GPIO.HIGH,
+                    "\nsleeping for 3 seconds",
+                ),
                 time.sleep(3),
                 GPIO.output(self.RELAY_PIN, GPIO.LOW),
                 print(self.RELAY_PIN, "set to", GPIO.LOW, "\nsleeping for 10 seconds"),
@@ -147,28 +156,28 @@ class ClientOne:
         ).start()
 
     def get_distance(self):
-        self.pi.write(self.TRIG_PIN,1)
+        self.pi.write(self.TRIG_PIN, 1)
         time.sleep(0.00001)
-        self.pi.write(self.TRIG_PIN,0)
-        
-        start_time=time.time()
-        while self.pi.read(self.ECHO_PIN)==0:
-            if time.time()-start_time>1:
+        self.pi.write(self.TRIG_PIN, 0)
+
+        start_time = time.time()
+        while self.pi.read(self.ECHO_PIN) == 0:
+            if time.time() - start_time > 1:
                 return None
-         
-        start_time=time.time()   
-        while self.pi.read(self.ECHO_PIN)==1:
-            if time.time()-start_time>1:
+
+        start_time = time.time()
+        while self.pi.read(self.ECHO_PIN) == 1:
+            if time.time() - start_time > 1:
                 return None
-            
-        stop_time=time.time()
-        
-        elapsed_time=stop_time-start_time
-        distance=(elapsed_time*self.SPEED_OF_SOUND)/2
-        
-        if distance >20:
+
+        stop_time = time.time()
+
+        elapsed_time = stop_time - start_time
+        distance = (elapsed_time * self.SPEED_OF_SOUND) / 2
+
+        if distance > 20:
             return None
-        
+
         return distance
 
     def read_and_publish_distance(self, topic):
@@ -179,10 +188,14 @@ class ClientOne:
             # Cap the distance at 20cm and convert to a percentage
             capped_distance = min(median_distance, 20)
             percentage = (capped_distance / 20) * 100
-            inverted_percentage = 100 - percentage  # Invert the percentage, so that the nearer the water level it is the higher the percentage
-            self.publish(topic, {'percentage': "{:.2f}".format(inverted_percentage)})
+            inverted_percentage = round(
+                100 - percentage, 2
+            )  # Invert the percentage, so that the nearer the water level it is the higher the percentage
+            print("distance", inverted_percentage)
+            self.mqttc.publish(topic, inverted_percentage, qos=2)
         else:
             print("No valid readings")
+            self.mqttc.publish(topic, 0, qos=2)
 
     def publish_distance(self, topic):
         return
@@ -199,20 +212,8 @@ def main():
     client = ClientOne(server, port)
     client.start()
     try:
-        wave = 0
-        do_sub = False
         while True:
-            if wave == 100:
-                do_sub = True
-            elif wave == 0:
-                do_sub = False
-            if do_sub:
-                wave -= 1
-            else:
-                wave += 1
-
-            # client.read_and_publish_distance("sensor/distance")
-            client.mqttc.publish("sensor/distance", wave)
+            client.read_and_publish_distance("sensor/capacity")
             client.publish_moisture_level("sensor/moisture")
             time.sleep(1)
     except KeyboardInterrupt:
