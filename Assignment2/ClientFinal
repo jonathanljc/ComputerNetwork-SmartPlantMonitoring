@@ -13,15 +13,13 @@ def receive_messages(client_socket, current_username):
 
 def send_messages(client_socket, current_username):
     while True:
-        user_input = input("Enter command or message: ")
-        if user_input.strip() == '@quit':
-            client_socket.sendall(user_input.encode('utf-8'))
+        message = input("Enter message (or type '@quit' to exit): \n")
+        if message == '@quit':
+            client_socket.sendall(message.encode('utf-8'))
             client_socket.close()
             break
-        elif user_input.startswith('@'):
-            client_socket.sendall(user_input.encode('utf-8'))
         else:
-            client_socket.sendall(user_input.encode('utf-8'))
+            client_socket.sendall(message.encode('utf-8'))
 
 def main():
     while True:  # Keep looping until a unique username is provided
