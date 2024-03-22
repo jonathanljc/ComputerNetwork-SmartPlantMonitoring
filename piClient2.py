@@ -43,13 +43,16 @@ class MQTTClient:
 
     def on_message(self, client, userdata, msg):
         # Attempt to parse the message payload as JSON
-        message = json.loads(msg.payload.decode())
+        message = msg.payload.decode()
         print(msg.topic, message)
         
         if message == "manual":
             self.automaticMode = 0
-        if message == "automatic":
+        if message == "auto":
             self.automaticMode = 1
+            GPIO.output(23, GPIO.LOW)
+            GPIO.output(24, GPIO.LOW)
+            GPIO.output(25, GPIO.LOW)
 
         if self.automaticMode == 0:
             if message == "red":
@@ -67,6 +70,10 @@ class MQTTClient:
                     GPIO.output(25, GPIO.HIGH)
                 else:
                     GPIO.output(25, GPIO.LOW)
+            elif message == "off":
+                GPIO.output(23, GPIO.LOW)
+                GPIO.output(24, GPIO.LOW)
+                GPIO.output(25, GPIO.LOW)
 
     def start(self):
         self.mqttc.loop_start()
@@ -83,41 +90,40 @@ class MQTTClient:
     # Read temperature and humidity and UV light from sensor and publishes the data
     def readSensors(self, topic):
         try:
-            # Sets up temperature & humidity sensor
+            #Sets up temperature & humidity sensor
             temperature_c = dht_device.temperature
-            # temperature_f = temperature_c * (9 / 5) + 32
+            temperature_f = temperature_c * (9 / 5) + 32
             humidity = dht_device.humidity
 
-            # Sets up light sensor
+            #Sets up light sensor
             i2c = board.I2C()
             ltr = adafruit_ltr390.LTR390(i2c)
 
-            print("Temp:{:.1f} C || Humidity: {}% || Lux:{:.2f}".format(temperature_c, humidity, ltr.lux))
-            # Publish the temp, humid and UV index
+            print("Temp:{:.2f} C || Humidity: {:.2f}% || Lux: {:.2f}".format(temperature_c, humidity, ltr.lux))
+            #Publish the temp, humid and UV index
             self.publish(topic, {
                 'temp': "{:.2f}".format(temperature_c), 
-                'humid':"{}%".format(humidity), 
+                'humid':"{:.2f}".format(humidity), 
                 'lux':"{:.2f}".format(ltr.lux)
             })
 
             if self.automaticMode == 1:
                 if ltr.lux <= 100:
                     GPIO.output(23, GPIO.HIGH)
-                    GPIO.output(24, GPIO.HIGH)
-                    GPIO.output(25, GPIO.HIGH)
+                    GPIO.output(24, GPIO.LOW)
+                    GPIO.output(25, GPIO.LOW)
                 elif ltr.lux <= 300:
-                    GPIO.output(23, GPIO.HIGH)
+                    GPIO.output(23, GPIO.LOW)
                     GPIO.output(24, GPIO.HIGH)
                     GPIO.output(25, GPIO.LOW)
                 elif ltr.lux <= 500:
-                    GPIO.output(23, GPIO.HIGH)
+                    GPIO.output(23, GPIO.LOW)
                     GPIO.output(24, GPIO.LOW)
-                    GPIO.output(25, GPIO.LOW)
+                    GPIO.output(25, GPIO.HIGH)
                 else:
                     GPIO.output(23, GPIO.LOW)
                     GPIO.output(24, GPIO.LOW)
                     GPIO.output(25, GPIO.LOW)
-
 
         except RuntimeError as err:
             print(err.args[0])
