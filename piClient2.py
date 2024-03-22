@@ -27,6 +27,8 @@ GPIO.setup(24, GPIO.OUT)
 GPIO.setup(25, GPIO.OUT)
 
 class MQTTClient:
+    automaticMode = 1
+
     def __init__(self, server, port):
         self.mqttc = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2)
         self.mqttc.on_connect = self.on_connect
@@ -43,17 +45,28 @@ class MQTTClient:
         # Attempt to parse the message payload as JSON
         message = json.loads(msg.payload.decode())
         print(msg.topic, message)
+        
+        if message == "manual":
+            self.automaticMode = 0
+        if message == "automatic":
+            self.automaticMode = 1
 
-        # Action to turn on LEDs
-        # Subject to change (discuss on/off how long or toggle. discuss on receiving json format)
-        # Colours also depends on connected to which
-        if "action" in message:
-            if message["action"] == "red":
-                GPIO.output(23, GPIO.HIGH)
-            elif message["action"] == "green":
-                GPIO.output(24, GPIO.HIGH)
-            elif message["action"] == "blue":
-                GPIO.output(25, GPIO.HIGH)
+        if self.automaticMode == 0:
+            if message == "red":
+                if GPIO.input(23) == 0:
+                    GPIO.output(23, GPIO.HIGH)
+                else:
+                    GPIO.output(23, GPIO.LOW)
+            elif message == "green":
+                if GPIO.input(24) == 0:
+                    GPIO.output(24, GPIO.HIGH)
+                else:
+                    GPIO.output(24, GPIO.LOW)
+            elif message == "blue":
+                if GPIO.input(25) == 0:
+                    GPIO.output(25, GPIO.HIGH)
+                else:
+                    GPIO.output(25, GPIO.LOW)
 
     def start(self):
         self.mqttc.loop_start()
@@ -87,9 +100,24 @@ class MQTTClient:
                 'lux':"{:.2f}".format(ltr.lux)
             })
 
-            # FOR TESTING (HARD CODED DATA, for work WITHOUT sensors)
-            # print("Temp:{:.1f} C / {:.1f} F    Humidity: {}%".format(30.50, 86.9, 55.55))
-            # self.publish(topic, {'temp': "{:.2f}".format(30.50), 'humid':"{}%".format(55.55)})
+            if self.automaticMode == 1:
+                if ltr.lux <= 100:
+                    GPIO.output(23, GPIO.HIGH)
+                    GPIO.output(24, GPIO.HIGH)
+                    GPIO.output(25, GPIO.HIGH)
+                elif ltr.lux <= 300:
+                    GPIO.output(23, GPIO.HIGH)
+                    GPIO.output(24, GPIO.HIGH)
+                    GPIO.output(25, GPIO.LOW)
+                elif ltr.lux <= 500:
+                    GPIO.output(23, GPIO.HIGH)
+                    GPIO.output(24, GPIO.LOW)
+                    GPIO.output(25, GPIO.LOW)
+                else:
+                    GPIO.output(23, GPIO.LOW)
+                    GPIO.output(24, GPIO.LOW)
+                    GPIO.output(25, GPIO.LOW)
+
 
         except RuntimeError as err:
             print(err.args[0])
