@@ -79,8 +79,8 @@ class Server:
 
 # Function to handle individual client connections
 def handle_client(client_socket, clients, client_names, groups, owner_dict):
-    while True:
-        try:
+    try:
+        while True:
             message = client_socket.recv(1024).decode("utf-8")
             if not message:
                 continue
@@ -117,42 +117,53 @@ def handle_client(client_socket, clients, client_names, groups, owner_dict):
                     handle_personal_message(client_socket, client_names, message)
             else:
                 sender_username = client_names[client_socket]
-                msg_fmt = f"[{sender_username}:] {message}"
+                msg_fmt = f"[{sender_username}]: {message}"
                 print(msg_fmt)
                 # Send message to all clients except the sender
                 for client in clients:
                     if client != client_socket:
                         client.sendall(msg_fmt.encode("utf-8"))
-        except Exception as e:
-            print(f"Error: {e}")
-            break
+    except Exception as e:
+        print(f"Error: {e}")
 
     # Remove the client from the active client list
-    clients.remove(client_socket)
+    if client_socket in clients:
+        clients.remove(client_socket)
     client_socket.close()
-    del client_names[client_socket]
+
+
+    
 
 
 
 # Handles the case when a client exits the chat. Notifies other clients about the exit.
 def handle_quit(client_socket, clients, client_names, groups, owner_dict):
-    exiting_username = client_names[client_socket]
-    print(f"[{exiting_username} has left the chat]")
-    message = "exited"
-    
-    # Leave all groups
-    for group_name, members in groups.items():
-        if exiting_username in members:
-            handle_quit_leave(client_socket, client_names, groups, owner_dict)
+    exiting_username = client_names.get(client_socket)
+    if exiting_username:
+        print(f"[{exiting_username} has left the chat]")
+        message = "exited"
 
-    # Notify other clients about the exit
-    for client in clients:
-        client.sendall(f"{exiting_username} {message}".encode("utf-8"))
+        # Notify other clients about the exit
+        for client in clients:
+            try:
+                client.sendall(f"[{exiting_username} {message}]".encode("utf-8"))
+            except Exception as e:
+                print(f"Last client to leave: {e}")
+        
+        # Leave all groups
+        for group_name, members in groups.items():
+            if exiting_username in members:
+                handle_quit_leave(client_socket, client_names, groups, owner_dict)
 
-    # Remove the client from active client list and close the socket
-    clients.remove(client_socket)
-    client_socket.close()
-    del client_names[client_socket]
+        # Remove the client from active client list and close the socket
+        if client_socket in clients:
+            clients.remove(client_socket)
+        if client_socket in client_names:
+            del client_names[client_socket]
+        client_socket.close()
+    else:
+        print("Client socket not found in client_names.")
+
 
 def handle_quit_leave(client_socket, client_names, groups, owner_dict):
     try:
@@ -180,7 +191,7 @@ def handle_quit_leave(client_socket, client_names, groups, owner_dict):
                             )
 
                 # Notify other members of the group about the departure
-                msg_fmt = f"[{username} has left the {group_name} group.]"
+                msg_fmt = f"[{username} has left {group_name}.]"
                 for socket, name in client_names.items():
                     if name in groups[group_name] and socket != client_socket:
                         socket.sendall(msg_fmt.encode("utf-8"))
@@ -229,7 +240,6 @@ def handle_personal_message(client_socket, client_names, message):
         if recipient_socket:
             msg_fmt_recipient = f"[Personal Message from {sender_username}]: {personal_message}"
             recipient_socket.sendall(msg_fmt_recipient.encode("utf-8"))
-            print(f"[{sender_username} -> {recipient_username}]")
         else:
             client_socket.sendall(f"[User '{recipient_username}' not found. Type @help for available commands.]".encode("utf-8"))
 
