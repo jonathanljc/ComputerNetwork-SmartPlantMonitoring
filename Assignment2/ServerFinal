@@ -36,6 +36,7 @@ class Server:
                 client_socket.sendall(msg.encode("utf-8"))
             else:
                 return username
+
     # Run the server
     def run(self):
         if not self.running:
@@ -68,7 +69,7 @@ class Server:
                     self.client_sockets,
                     self.client_names,
                     self.groups,
-                    self.owner_dict,  
+                    self.owner_dict,
                 ),
             )
             self.threads.append(client_thread)
@@ -76,6 +77,7 @@ class Server:
 
         self.server_socket.close()
         print("Server closed.")
+
 
 # Function to handle individual client connections
 def handle_client(client_socket, clients, client_names, groups, owner_dict):
@@ -93,26 +95,40 @@ def handle_client(client_socket, clients, client_names, groups, owner_dict):
             elif stripped == "@names":
                 handle_names(client_socket, client_names)
             elif stripped.startswith("@group set"):
-                handle_group_setup(client_socket, client_names, groups, owner_dict, stripped)
+                handle_group_setup(
+                    client_socket, client_names, groups, owner_dict, stripped
+                )
             elif stripped.startswith("@group send"):
                 handle_group_send(client_socket, client_names, groups, stripped)
             elif stripped.startswith("@group delete"):
                 handle_group_delete(client_socket, client_names, groups, stripped)
             elif stripped.startswith("@group leave"):
-                handle_group_leave(client_socket, client_names, groups, owner_dict, message)
+                handle_group_leave(
+                    client_socket, client_names, groups, owner_dict, message
+                )
             elif stripped == "@grouplist":
-                handle_group_list(client_socket, client_names, groups, owner_dict, message)
+                handle_group_list(
+                    client_socket, client_names, groups, owner_dict, message
+                )
             elif stripped.startswith("@kick"):
-                handle_group_kick(client_socket, client_names, groups, owner_dict, stripped)
+                handle_group_kick(
+                    client_socket, client_names, groups, owner_dict, stripped
+                )
             elif stripped.startswith("@add"):
-                handle_group_add(client_socket, client_names, groups, owner_dict, stripped)
+                handle_group_add(
+                    client_socket, client_names, groups, owner_dict, stripped
+                )
             elif stripped.startswith("@who"):
                 handle_group_members(client_socket, client_names, groups, stripped)
             elif stripped == "@help":
                 handle_help(client_socket)
             elif stripped.startswith("@"):
                 if stripped == "@":
-                    client_socket.sendall("[Please provide a valid command. Type @help for available commands.]".encode("utf-8"))
+                    client_socket.sendall(
+                        "[Please provide a valid command. Type @help for available commands.]".encode(
+                            "utf-8"
+                        )
+                    )
                 else:
                     handle_personal_message(client_socket, client_names, message)
             else:
@@ -132,10 +148,6 @@ def handle_client(client_socket, clients, client_names, groups, owner_dict):
     client_socket.close()
 
 
-    
-
-
-
 # Handles the case when a client exits the chat. Notifies other clients about the exit.
 def handle_quit(client_socket, clients, client_names, groups, owner_dict):
     exiting_username = client_names.get(client_socket)
@@ -149,7 +161,7 @@ def handle_quit(client_socket, clients, client_names, groups, owner_dict):
                 client.sendall(f"[{exiting_username} {message}]".encode("utf-8"))
             except Exception as e:
                 print(f"Last client to leave: {e}")
-        
+
         # Leave all groups
         for group_name, members in groups.items():
             if exiting_username in members:
@@ -175,19 +187,30 @@ def handle_quit_leave(client_socket, client_names, groups, owner_dict):
             if username in members:
                 # Remove the user from the group
                 groups[group_name].remove(username)
-                groups_left.append(group_name)  # Add the group to the list of groups left
+                groups_left.append(
+                    group_name
+                )  # Add the group to the list of groups left
 
                 # Check if the leaving member is the owner and assign a new owner if necessary
                 if username == owner_dict.get(group_name):
-                    new_owner = next(iter(groups[group_name])) if groups[group_name] else None
+                    new_owner = (
+                        next(iter(groups[group_name])) if groups[group_name] else None
+                    )
                     owner_dict[group_name] = new_owner
                     if new_owner:
                         new_owner_socket = next(
-                            (sock for sock, name in client_names.items() if name == new_owner), None
+                            (
+                                sock
+                                for sock, name in client_names.items()
+                                if name == new_owner
+                            ),
+                            None,
                         )
                         if new_owner_socket:
                             new_owner_socket.sendall(
-                                f"[You have been assigned as the new owner of {group_name}]".encode("utf-8")
+                                f"[You have been assigned as the new owner of {group_name}]".encode(
+                                    "utf-8"
+                                )
                             )
 
                 # Notify other members of the group about the departure
@@ -199,10 +222,14 @@ def handle_quit_leave(client_socket, client_names, groups, owner_dict):
         # Notify the leaving member about leaving all groups
         if groups_left:
             client_socket.sendall(
-                f"[You have successfully left the following groups: {', '.join(groups_left)}]".encode("utf-8")
+                f"[You have successfully left the following groups: {', '.join(groups_left)}]".encode(
+                    "utf-8"
+                )
             )
         else:
-            client_socket.sendall("[You are not a member of any group.]".encode("utf-8"))
+            client_socket.sendall(
+                "[You are not a member of any group.]".encode("utf-8")
+            )
 
     except Exception as e:
         client_socket.sendall(f"[Error leaving group: {e}]".encode("utf-8"))
@@ -228,7 +255,9 @@ def handle_personal_message(client_socket, client_names, message):
         sender_username = client_names[client_socket]
 
         if recipient_username == sender_username:
-            client_socket.sendall("[You cannot send a private message to yourself.]".encode("utf-8"))
+            client_socket.sendall(
+                "[You cannot send a private message to yourself.]".encode("utf-8")
+            )
             return
 
         recipient_socket = None
@@ -238,16 +267,23 @@ def handle_personal_message(client_socket, client_names, message):
                 break
 
         if recipient_socket:
-            msg_fmt_recipient = f"[Personal Message from {sender_username}]: {personal_message}"
+            msg_fmt_recipient = (
+                f"[Personal Message from {sender_username}]: {personal_message}"
+            )
             recipient_socket.sendall(msg_fmt_recipient.encode("utf-8"))
         else:
-            client_socket.sendall(f"[User '{recipient_username}' not found. Type @help for available commands.]".encode("utf-8"))
+            client_socket.sendall(
+                f"[User '{recipient_username}' not found. Type @help for available commands.]".encode(
+                    "utf-8"
+                )
+            )
 
     except ValueError:
-        client_socket.sendall("[Please provide a valid command. Type @help for available commands.]".encode("utf-8"))
-
-
-
+        client_socket.sendall(
+            "[Please provide a valid command. Type @help for available commands.]".encode(
+                "utf-8"
+            )
+        )
 
 
 # Sets up a new group with specified users. Notifies users about being added to the group.
@@ -286,7 +322,7 @@ def handle_group_setup(client_socket, client_names, groups, owner_dict, message)
         client_username = client_names[client_socket]
         if client_username not in users_list:
             client_socket.sendall(
-                f"[You must be a part of the group to create it.]".encode("utf-8")
+                "[You must be a part of the group to create it.]".encode("utf-8")
             )
             return
 
@@ -305,9 +341,7 @@ def handle_group_setup(client_socket, client_names, groups, owner_dict, message)
                 if name == username:
                     print(f"Adding {username} to group {group_name}")
                     user_socket.sendall(
-                        f"[[You are enrolled in the {group_name} group]".encode(
-                            "utf-8"
-                        )
+                        f"[[You are enrolled in the {group_name} group]".encode("utf-8")
                     )
 
         client_socket.sendall(
@@ -316,6 +350,7 @@ def handle_group_setup(client_socket, client_names, groups, owner_dict, message)
 
     except Exception as e:
         client_socket.sendall(f"[Error setting up group: {e}]".encode("utf-8"))
+
 
 # Adds a user to an existing group, with permission checks.
 def handle_group_add(client_socket, client_names, groups, owner_dict, message):
@@ -336,15 +371,21 @@ def handle_group_add(client_socket, client_names, groups, owner_dict, message):
 
         owner = owner_dict.get(group_name)
         if owner != client_names[client_socket]:
-            client_socket.sendall("[You are not the owner of this group.]".encode("utf-8"))
+            client_socket.sendall(
+                "[You are not the owner of this group.]".encode("utf-8")
+            )
             return
 
         if user_to_add in groups[group_name]:
-            client_socket.sendall(f"[{user_to_add} is already a member of {group_name}]".encode("utf-8"))
+            client_socket.sendall(
+                f"[{user_to_add} is already a member of {group_name}]".encode("utf-8")
+            )
             return
 
         if user_to_add not in client_names.values():
-            client_socket.sendall(f"[User '{user_to_add}' does not exist.]".encode("utf-8"))
+            client_socket.sendall(
+                f"[User '{user_to_add}' does not exist.]".encode("utf-8")
+            )
             return
 
         groups[group_name].add(user_to_add)
@@ -352,7 +393,9 @@ def handle_group_add(client_socket, client_names, groups, owner_dict, message):
         # Notify the added user
         for user_socket, username in client_names.items():
             if username == user_to_add:
-                user_socket.sendall(f"[You have been added to the {group_name} group]".encode("utf-8"))
+                user_socket.sendall(
+                    f"[You have been added to the {group_name} group]".encode("utf-8")
+                )
 
         client_socket.sendall(
             f"[{user_to_add} has been added to the {group_name} group.]".encode("utf-8")
@@ -360,6 +403,7 @@ def handle_group_add(client_socket, client_names, groups, owner_dict, message):
 
     except Exception as e:
         client_socket.sendall(f"[Error adding member: {e}]".encode("utf-8"))
+
 
 # Retrieves and sends the list of members of a group to the client.
 def handle_group_members(client_socket, client_names, groups, message):
@@ -395,6 +439,7 @@ def handle_group_members(client_socket, client_names, groups, message):
 
     except Exception as e:
         client_socket.sendall(f"[Error getting group members: {e}]".encode("utf-8"))
+
 
 # Sends a message to a specified group, with appropriate permissions and error handling.
 def handle_group_send(client_socket, client_names, groups, message):
@@ -433,19 +478,22 @@ def handle_group_send(client_socket, client_names, groups, message):
     except Exception as e:
         client_socket.sendall(f"[Error sending group message: {e}]".encode("utf-8"))
 
+
 #  Lists the groups the client is a member of, including those they own.
 def handle_group_list(client_socket, client_names, groups, owner_dict, message):
     try:
         parts = message.split(maxsplit=1)
         if len(parts) < 1:
-            client_socket.sendall(
-                "[Invalid format. Usage: @grouplist]".encode("utf-8")
-            )
+            client_socket.sendall("[Invalid format. Usage: @grouplist]".encode("utf-8"))
             return
 
         client_username = client_names[client_socket]
-        user_groups = [group for group, members in groups.items() if client_username in members]
-        owned_groups = [group for group, owner in owner_dict.items() if owner == client_username]
+        user_groups = [
+            group for group, members in groups.items() if client_username in members
+        ]
+        owned_groups = [
+            group for group, owner in owner_dict.items() if owner == client_username
+        ]
 
         if not user_groups:
             client_socket.sendall(
@@ -458,7 +506,9 @@ def handle_group_list(client_socket, client_names, groups, owner_dict, message):
 
         if owned_groups:
             owned_group_names = ", ".join(owned_groups)
-            response += f"[You are the owner of the following groups: {owned_group_names}]"
+            response += (
+                f"[You are the owner of the following groups: {owned_group_names}]"
+            )
 
         client_socket.sendall(response.encode("utf-8"))
 
@@ -498,6 +548,7 @@ def handle_group_delete(client_socket, client_names, groups, message):
     except Exception as e:
         client_socket.sendall(f"[Error deleting group: {e}]".encode("utf-8"))
 
+
 # Manages a client leaving a group, with consideration for ownership and notifying members.
 def handle_group_leave(client_socket, client_names, groups, owner_dict, message):
     try:
@@ -524,13 +575,17 @@ def handle_group_leave(client_socket, client_names, groups, owner_dict, message)
 
         groups[group_name].remove(sender_username)
 
-        if sender_username == owner_dict.get(group_name):  # Check if leaving member is the owner
+        if sender_username == owner_dict.get(
+            group_name
+        ):  # Check if leaving member is the owner
             # Select a new owner from the remaining members
             new_owner = next(iter(groups[group_name])) if groups[group_name] else None
             owner_dict[group_name] = new_owner
 
             if new_owner:
-                msg_fmt_new_owner = f"[You have been assigned as the new owner of {group_name}]"
+                msg_fmt_new_owner = (
+                    f"[You have been assigned as the new owner of {group_name}]"
+                )
                 for user_socket, username in client_names.items():
                     if username == new_owner:
                         user_socket.sendall(msg_fmt_new_owner.encode("utf-8"))
@@ -553,7 +608,6 @@ def handle_group_leave(client_socket, client_names, groups, owner_dict, message)
         client_socket.sendall(f"[Error leaving group: {e}]".encode("utf-8"))
 
 
-
 # Allows the owner to kick a user out of a group, notifying the user and other members.
 def handle_group_kick(client_socket, client_names, groups, owner_dict, message):
     try:
@@ -574,8 +628,12 @@ def handle_group_kick(client_socket, client_names, groups, owner_dict, message):
         owner = owner_dict.get(group_name)
         if owner == client_names[client_socket]:
             if user_to_kick in groups[group_name]:
-                if user_to_kick == owner:  # Prevent the owner from kicking themselves out
-                    client_socket.sendall("[You cannot kick yourself out of the group.]".encode("utf-8"))
+                if (
+                    user_to_kick == owner
+                ):  # Prevent the owner from kicking themselves out
+                    client_socket.sendall(
+                        "[You cannot kick yourself out of the group.]".encode("utf-8")
+                    )
                 else:
                     groups[group_name].remove(user_to_kick)
                     msg_fmt_kicked_user = f"[You have been kicked from {group_name} by {client_names[client_socket]}]"
@@ -586,17 +644,27 @@ def handle_group_kick(client_socket, client_names, groups, owner_dict, message):
                             user_socket.sendall(msg_fmt_kicked_user.encode("utf-8"))
 
                     # Notify other users in the group
-                    msg_fmt_other_users = f"[{user_to_kick} has been kicked from {group_name}]"
+                    msg_fmt_other_users = (
+                        f"[{user_to_kick} has been kicked from {group_name}]"
+                    )
                     for client_socket, username in client_names.items():
-                        if username in groups[group_name] and client_socket != client_names[client_socket]:
+                        if (
+                            username in groups[group_name]
+                            and client_socket != client_names[client_socket]
+                        ):
                             client_socket.sendall(msg_fmt_other_users.encode("utf-8"))
             else:
-                client_socket.sendall(f"[{user_to_kick} is not a member of {group_name}]".encode("utf-8"))
+                client_socket.sendall(
+                    f"[{user_to_kick} is not a member of {group_name}]".encode("utf-8")
+                )
         else:
-            client_socket.sendall("[You are not the owner of this group.]".encode("utf-8"))
+            client_socket.sendall(
+                "[You are not the owner of this group.]".encode("utf-8")
+            )
 
     except Exception as e:
         client_socket.sendall(f"[Error kicking member: {e}]".encode("utf-8"))
+
 
 # Provides a help message with available commands and their descriptions.
 def handle_help(client_socket):
@@ -622,11 +690,6 @@ def handle_help(client_socket):
    
     """
     client_socket.sendall(help_message.encode("utf-8"))
-
-
-
-
-
 
 
 def main():
