@@ -48,6 +48,9 @@ class MQTTClient:
         
         if message == "manual":
             self.automaticMode = 0
+            GPIO.output(23, GPIO.LOW)
+            GPIO.output(24, GPIO.LOW)
+            GPIO.output(25, GPIO.LOW)
         if message == "auto":
             self.automaticMode = 1
             GPIO.output(23, GPIO.LOW)
