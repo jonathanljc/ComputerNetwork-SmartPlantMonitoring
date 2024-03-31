@@ -197,9 +197,6 @@ class ClientOne:
             print("No valid readings")
             self.mqttc.publish(topic, 0, qos=2)
 
-    def publish_distance(self, topic):
-        return
-
 
 def main():
     server = "localhost" or "test.mosquitto.org"
