@@ -1,5 +1,5 @@
-# humid/temperature & light sensor
-# TO DO: turn on led light
+# Humidity / Temperature Sensor and Light Sensor
+# LED Lights
 
 # For Temperature and Humidity sensor:
 # pip3 install adafruit-circuitpython-dht
@@ -21,6 +21,7 @@ import RPi.GPIO as GPIO
 # Board.DX where X is GPIO number like GPIO4 is D4, GPIO24 is D24
 dht_device = adafruit_dht.DHT11(board.D22)
 
+# Set up LED GPIO pins
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(23, GPIO.OUT)
 GPIO.setup(24, GPIO.OUT)
@@ -28,9 +29,11 @@ GPIO.setup(25, GPIO.OUT)
 
 
 class MQTTClient:
+    # LED lights are on Automatic mode by default
     automaticMode = 1
 
     def __init__(self, server, port):
+        # Connect and Initialise MQTT connection to Broker
         self.mqttc = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2)
         self.mqttc.on_connect = self.on_connect
         self.mqttc.on_message = self.on_message
@@ -46,6 +49,7 @@ class MQTTClient:
         message = msg.payload.decode()
         print(msg.topic, message)
 
+        # Handle Light mode instruction from Broker
         if message == "manual":
             self.automaticMode = 0
             GPIO.output(23, GPIO.LOW)
@@ -57,6 +61,7 @@ class MQTTClient:
             GPIO.output(24, GPIO.LOW)
             GPIO.output(25, GPIO.LOW)
 
+        # Handle manual LED commands from Broker
         if self.automaticMode == 0:
             if message == "red":
                 if GPIO.input(23) == 0:
@@ -117,6 +122,7 @@ class MQTTClient:
                 },
             )
 
+            # Automatic mode for LED Light based on Lux level
             if self.automaticMode == 1:
                 if ltr.lux <= 100:
                     GPIO.output(23, GPIO.HIGH)
@@ -141,13 +147,13 @@ class MQTTClient:
 
 if __name__ == "__main__":
     # Main method
-    # Replace the address with the Broker IP such as "192.xxx.xxx.xxx" or wtv is the ip
+    # Replace the address with the Broker IP
     client = MQTTClient("localhost", 1883)
 
     client.start()
     try:
         while True:
-            # Topic used is "home/temp", able to change depending on topic needed
+            # Topic used is "home/sensorsF", able to change depending on topic needed
             client.readSensors("home/sensorsF")
             time.sleep(1)  # Delay for 1 second before reading again
     except KeyboardInterrupt:
