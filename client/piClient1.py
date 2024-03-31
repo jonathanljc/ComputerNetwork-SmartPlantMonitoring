@@ -128,7 +128,7 @@ class ClientOne:
             self.mqttc.publish(topic, moisture_level, qos=2)
 
     def request_moisture(self):
-        moisture_level = self.read_moisture_level()
+        # moisture_level = self.read_moisture_level()
 
         # if not (20 <= moisture_level <= 30):
         #     return
@@ -199,11 +199,6 @@ class ClientOne:
 
     def publish_distance(self, topic):
         return
-        moisture_level = self.read_moisture_level()
-        if moisture_level:
-            moisture_level = round(moisture_level, 2)
-            print("moisture", moisture_level)
-            self.mqttc.publish(topic, moisture_level, qos=2)
 
 
 def main():
