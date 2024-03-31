@@ -1,0 +1,1768 @@
+[
+    {
+        "id": "69ff56bb537a4ac8",
+        "type": "tab",
+        "label": "Production",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "605f4eb3c18c6bf9",
+        "type": "tab",
+        "label": "Home",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "667d120e171461ba",
+        "type": "tab",
+        "label": "History",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "acc91d28b8f59fed",
+        "type": "tab",
+        "label": "Setting",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "66623105826c1e88",
+        "type": "mqtt-broker",
+        "name": "",
+        "broker": "localhost",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "9a883bc2609897a4",
+        "type": "ui-base",
+        "name": "ui-base",
+        "path": "/dashboard",
+        "includeClientData": true,
+        "acceptsClientConfig": [
+            "ui-notification",
+            "ui-control"
+        ],
+        "showPathInSidebar": false,
+        "navigationStyle": "default"
+    },
+    {
+        "id": "d348f40ad48b748b",
+        "type": "ui-theme",
+        "name": "Default",
+        "colors": {
+            "surface": "#ffffff",
+            "primary": "#0094ce",
+            "bgPage": "#eeeeee",
+            "groupBg": "#ffffff",
+            "groupOutline": "#cccccc"
+        },
+        "sizes": {
+            "pagePadding": "12px",
+            "groupGap": "12px",
+            "groupBorderRadius": "4px",
+            "widgetGap": "12px"
+        }
+    },
+    {
+        "id": "6f3fd4503dcf0e2d",
+        "type": "ui-page",
+        "name": "Home",
+        "ui": "9a883bc2609897a4",
+        "path": "/page1",
+        "icon": "home",
+        "layout": "notebook",
+        "theme": "d348f40ad48b748b",
+        "order": -1,
+        "className": "",
+        "visible": "true",
+        "disabled": "false"
+    },
+    {
+        "id": "dba6c15a9ee7f94c",
+        "type": "ui-group",
+        "name": "home-g1",
+        "page": "6f3fd4503dcf0e2d",
+        "width": "6",
+        "height": "1",
+        "order": 1,
+        "showTitle": false,
+        "className": "",
+        "visible": "true",
+        "disabled": "false"
+    },
+    {
+        "id": "937e23260c10c1a6",
+        "type": "ui-group",
+        "name": "home-g2",
+        "page": "6f3fd4503dcf0e2d",
+        "width": "6",
+        "height": "1",
+        "order": 3,
+        "showTitle": false,
+        "className": "",
+        "visible": "true",
+        "disabled": "false"
+    },
+    {
+        "id": "505582d98569caca",
+        "type": "ui-group",
+        "name": "home-g3",
+        "page": "6f3fd4503dcf0e2d",
+        "width": "6",
+        "height": "1",
+        "order": 2,
+        "showTitle": false,
+        "className": "",
+        "visible": "true",
+        "disabled": "false"
+    },
+    {
+        "id": "f0d54d3903514065",
+        "type": "ui-page",
+        "name": "History",
+        "ui": "9a883bc2609897a4",
+        "path": "/page2",
+        "icon": "thermometer",
+        "layout": "notebook",
+        "theme": "d348f40ad48b748b",
+        "order": -1,
+        "className": "",
+        "visible": "true",
+        "disabled": "false"
+    },
+    {
+        "id": "e19e37a578398e43",
+        "type": "ui-group",
+        "name": "history-g1",
+        "page": "f0d54d3903514065",
+        "width": "6",
+        "height": "1",
+        "order": -1,
+        "showTitle": false,
+        "className": "",
+        "visible": "true",
+        "disabled": "false"
+    },
+    {
+        "id": "6763788d20d8c005",
+        "type": "ui-group",
+        "name": "history-g2",
+        "page": "f0d54d3903514065",
+        "width": "6",
+        "height": "1",
+        "order": -1,
+        "showTitle": false,
+        "className": "",
+        "visible": "true",
+        "disabled": "false"
+    },
+    {
+        "id": "18ffba03ae4cadd9",
+        "type": "ui-page",
+        "name": "Setting",
+        "ui": "9a883bc2609897a4",
+        "path": "/page3",
+        "icon": "cog",
+        "layout": "notebook",
+        "theme": "d348f40ad48b748b",
+        "order": -1,
+        "className": "",
+        "visible": "true",
+        "disabled": "false"
+    },
+    {
+        "id": "b99e83129ea518cd",
+        "type": "ui-group",
+        "name": "setting-g1",
+        "page": "18ffba03ae4cadd9",
+        "width": "6",
+        "height": "1",
+        "order": -1,
+        "showTitle": false,
+        "className": "",
+        "visible": "true",
+        "disabled": "false"
+    },
+    {
+        "id": "e0bfbab695ad18fc",
+        "type": "mqtt-broker",
+        "name": "",
+        "broker": "192.168.1.10",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "f50b6fbe52d0a644",
+        "type": "mqtt-broker",
+        "name": "",
+        "broker": "192.168.1.177",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "ba02c1f90b056879",
+        "type": "mqtt in",
+        "z": "69ff56bb537a4ac8",
+        "name": "",
+        "topic": "sensor/moisture",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "f50b6fbe52d0a644",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 300,
+        "y": 260,
+        "wires": [
+            [
+                "c4524e2bf42a72e5",
+                "bd135f4ffd812749"
+            ]
+        ]
+    },
+    {
+        "id": "d68fb6d8197702ad",
+        "type": "mqtt in",
+        "z": "69ff56bb537a4ac8",
+        "name": "",
+        "topic": "sensor/capacity",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "f50b6fbe52d0a644",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 300,
+        "y": 120,
+        "wires": [
+            [
+                "9050665a1578b05b",
+                "34e45c01cac34cba"
+            ]
+        ]
+    },
+    {
+        "id": "c4524e2bf42a72e5",
+        "type": "change",
+        "z": "69ff56bb537a4ac8",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "$round(payload)",
+                "tot": "jsonata"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 480,
+        "y": 260,
+        "wires": [
+            [
+                "6f4274fb40146da8",
+                "5acaecb4ba098d89"
+            ]
+        ]
+    },
+    {
+        "id": "6f4274fb40146da8",
+        "type": "switch",
+        "z": "69ff56bb537a4ac8",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "lt",
+                "v": "20",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 690,
+        "y": 260,
+        "wires": [
+            [
+                "ccb7983cd1028fc9"
+            ]
+        ]
+    },
+    {
+        "id": "94ba544262c812a6",
+        "type": "ui-notification",
+        "z": "69ff56bb537a4ac8",
+        "ui": "9a883bc2609897a4",
+        "position": "top right",
+        "colorDefault": true,
+        "color": "#000000",
+        "displayTime": "3",
+        "showCountdown": true,
+        "outputs": 0,
+        "allowDismiss": false,
+        "dismissText": "Close",
+        "raw": false,
+        "className": "",
+        "name": "",
+        "x": 1210,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "ccb7983cd1028fc9",
+        "type": "change",
+        "z": "69ff56bb537a4ac8",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "Moisture is below 20%.",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 840,
+        "y": 260,
+        "wires": [
+            [
+                "ae422e133fad6be9"
+            ]
+        ]
+    },
+    {
+        "id": "5acaecb4ba098d89",
+        "type": "link out",
+        "z": "69ff56bb537a4ac8",
+        "name": "sensor/moisture",
+        "mode": "link",
+        "links": [
+            "49446e5ad6f94feb",
+            "b9046319d45705ab"
+        ],
+        "x": 655,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "ae422e133fad6be9",
+        "type": "delay",
+        "z": "69ff56bb537a4ac8",
+        "name": "",
+        "pauseType": "rate",
+        "timeout": "5",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "5",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": true,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 1020,
+        "y": 260,
+        "wires": [
+            [
+                "94ba544262c812a6"
+            ]
+        ]
+    },
+    {
+        "id": "9050665a1578b05b",
+        "type": "debug",
+        "z": "69ff56bb537a4ac8",
+        "name": "sensor/capacity",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 500,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "5f4b8f84e72002e8",
+        "type": "link out",
+        "z": "69ff56bb537a4ac8",
+        "name": "sensor/distance",
+        "mode": "link",
+        "links": [
+            "197c0360549264b5",
+            "605616909ac0f97c"
+        ],
+        "x": 655,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "23c3040e38aaab83",
+        "type": "link in",
+        "z": "69ff56bb537a4ac8",
+        "name": "relay/light",
+        "links": [
+            "05e307ebc4128b96",
+            "3054ddc509f0c57b"
+        ],
+        "x": 235,
+        "y": 660,
+        "wires": [
+            [
+                "7f3f9327da29a6f3",
+                "e390595c630f170f"
+            ]
+        ]
+    },
+    {
+        "id": "7f3f9327da29a6f3",
+        "type": "debug",
+        "z": "69ff56bb537a4ac8",
+        "name": "relay/light",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 380,
+        "y": 620,
+        "wires": []
+    },
+    {
+        "id": "e390595c630f170f",
+        "type": "delay",
+        "z": "69ff56bb537a4ac8",
+        "name": "",
+        "pauseType": "rate",
+        "timeout": "5",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": true,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 390,
+        "y": 660,
+        "wires": [
+            [
+                "f539b87be06e467e"
+            ]
+        ]
+    },
+    {
+        "id": "f539b87be06e467e",
+        "type": "mqtt out",
+        "z": "69ff56bb537a4ac8",
+        "name": "",
+        "topic": "home/sensorsF",
+        "qos": "2",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "e0bfbab695ad18fc",
+        "x": 600,
+        "y": 660,
+        "wires": []
+    },
+    {
+        "id": "8e1d144fce4d9df4",
+        "type": "mqtt out",
+        "z": "69ff56bb537a4ac8",
+        "name": "",
+        "topic": "relay/water",
+        "qos": "1",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "f50b6fbe52d0a644",
+        "x": 590,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "6b34f926d483c25e",
+        "type": "link in",
+        "z": "69ff56bb537a4ac8",
+        "name": "relay/water",
+        "links": [
+            "031859050502a017"
+        ],
+        "x": 235,
+        "y": 400,
+        "wires": [
+            [
+                "6cc71b3df2d44ef7",
+                "730761955ae7599c"
+            ]
+        ]
+    },
+    {
+        "id": "6cc71b3df2d44ef7",
+        "type": "delay",
+        "z": "69ff56bb537a4ac8",
+        "name": "",
+        "pauseType": "rate",
+        "timeout": "5",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "5",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": true,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 400,
+        "y": 400,
+        "wires": [
+            [
+                "8e1d144fce4d9df4"
+            ]
+        ]
+    },
+    {
+        "id": "730761955ae7599c",
+        "type": "debug",
+        "z": "69ff56bb537a4ac8",
+        "name": "relay/water",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 390,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "bd135f4ffd812749",
+        "type": "debug",
+        "z": "69ff56bb537a4ac8",
+        "name": "sensor/moisture",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 480,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "34e45c01cac34cba",
+        "type": "change",
+        "z": "69ff56bb537a4ac8",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "$round(payload)",
+                "tot": "jsonata"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 500,
+        "y": 120,
+        "wires": [
+            [
+                "5f4b8f84e72002e8"
+            ]
+        ]
+    },
+    {
+        "id": "d8500ef77271b655",
+        "type": "mqtt in",
+        "z": "69ff56bb537a4ac8",
+        "name": "",
+        "topic": "home/sensorsF",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "e0bfbab695ad18fc",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 280,
+        "y": 520,
+        "wires": [
+            [
+                "079ad2a90dade9af"
+            ]
+        ]
+    },
+    {
+        "id": "079ad2a90dade9af",
+        "type": "function",
+        "z": "69ff56bb537a4ac8",
+        "name": "Extract JSON",
+        "func": "const t = Math.round(msg.payload.temp)\nconst h = Math.round(msg.payload.humid)\nconst l = Math.round(msg.payload.lux)\nreturn [{payload: t}, {payload: h}, {payload: l}];",
+        "outputs": 3,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 480,
+        "y": 520,
+        "wires": [
+            [
+                "277889ebc0e14fad",
+                "e4e81f22b13099b7"
+            ],
+            [
+                "96e1b9550b1737a3",
+                "b766b57aff59dba2"
+            ],
+            [
+                "8715f9f676a18c80",
+                "909c1367dc117151"
+            ]
+        ]
+    },
+    {
+        "id": "277889ebc0e14fad",
+        "type": "link out",
+        "z": "69ff56bb537a4ac8",
+        "name": "sensor/temperature",
+        "mode": "link",
+        "links": [
+            "22a198ea3238e0d5",
+            "5e2b11e8f17e558f"
+        ],
+        "x": 835,
+        "y": 460,
+        "wires": []
+    },
+    {
+        "id": "96e1b9550b1737a3",
+        "type": "link out",
+        "z": "69ff56bb537a4ac8",
+        "name": "sensor/humidity",
+        "mode": "link",
+        "links": [
+            "1db7d25416038d6d",
+            "54f8c242ebde5c74"
+        ],
+        "x": 835,
+        "y": 520,
+        "wires": []
+    },
+    {
+        "id": "8715f9f676a18c80",
+        "type": "link out",
+        "z": "69ff56bb537a4ac8",
+        "name": "sensor/lux",
+        "mode": "link",
+        "links": [
+            "17b47a56b93f9929",
+            "670d8459ff47e6ab"
+        ],
+        "x": 835,
+        "y": 580,
+        "wires": []
+    },
+    {
+        "id": "e4e81f22b13099b7",
+        "type": "debug",
+        "z": "69ff56bb537a4ac8",
+        "name": "sensor/temperature",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 690,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "b766b57aff59dba2",
+        "type": "debug",
+        "z": "69ff56bb537a4ac8",
+        "name": "sensor/humidity",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 680,
+        "y": 520,
+        "wires": []
+    },
+    {
+        "id": "909c1367dc117151",
+        "type": "debug",
+        "z": "69ff56bb537a4ac8",
+        "name": "sensor/lux",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 670,
+        "y": 560,
+        "wires": []
+    },
+    {
+        "id": "a50b704cec313b29",
+        "type": "ui-markdown",
+        "z": "605f4eb3c18c6bf9",
+        "group": "dba6c15a9ee7f94c",
+        "name": "",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "content": "# Welcome!\n\nPlease explore around!",
+        "className": "",
+        "x": 390,
+        "y": 160,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "44c021c794096980",
+        "type": "ui-gauge",
+        "z": "605f4eb3c18c6bf9",
+        "name": "",
+        "group": "937e23260c10c1a6",
+        "order": 0,
+        "width": "3",
+        "height": "5",
+        "gtype": "gauge-34",
+        "gstyle": "rounded",
+        "title": "Tank Capacity",
+        "units": "percent",
+        "icon": "water",
+        "prefix": "",
+        "suffix": "",
+        "segments": [
+            {
+                "from": "0",
+                "color": "#ac0606"
+            },
+            {
+                "from": "20",
+                "color": "#36c524"
+            },
+            {
+                "from": "80",
+                "color": "#ac0606"
+            }
+        ],
+        "min": "0",
+        "max": "100",
+        "sizeThickness": 16,
+        "sizeGap": 4,
+        "sizeKeyThickness": 8,
+        "styleRounded": true,
+        "styleGlow": false,
+        "className": "",
+        "x": 400,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "8fb9270429e8aa03",
+        "type": "ui-gauge",
+        "z": "605f4eb3c18c6bf9",
+        "name": "",
+        "group": "937e23260c10c1a6",
+        "order": 0,
+        "width": "3",
+        "height": "5",
+        "gtype": "gauge-34",
+        "gstyle": "needle",
+        "title": "Temperature",
+        "units": "celsius",
+        "icon": "thermometer",
+        "prefix": "",
+        "suffix": "",
+        "segments": [
+            {
+                "from": "0",
+                "color": "#db1414"
+            },
+            {
+                "from": "5",
+                "color": "#bc9014"
+            },
+            {
+                "from": "10",
+                "color": "#9eea53"
+            },
+            {
+                "from": "15",
+                "color": "#7bea53"
+            },
+            {
+                "from": "30",
+                "color": "#9eea53"
+            },
+            {
+                "from": "45",
+                "color": "#bc9017"
+            },
+            {
+                "from": "60",
+                "color": "#dc1414"
+            }
+        ],
+        "min": 0,
+        "max": "100",
+        "sizeThickness": 16,
+        "sizeGap": 4,
+        "sizeKeyThickness": 8,
+        "styleRounded": true,
+        "styleGlow": false,
+        "className": "",
+        "x": 390,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "24547cf023aa0a9b",
+        "type": "ui-gauge",
+        "z": "605f4eb3c18c6bf9",
+        "name": "",
+        "group": "937e23260c10c1a6",
+        "order": 0,
+        "width": "3",
+        "height": "5",
+        "gtype": "gauge-34",
+        "gstyle": "needle",
+        "title": "Humidity",
+        "units": " percent",
+        "icon": "cloud",
+        "prefix": "",
+        "suffix": "",
+        "segments": [
+            {
+                "from": "0",
+                "color": "#d65c5c"
+            },
+            {
+                "from": "10",
+                "color": "#ba7b0d"
+            },
+            {
+                "from": "30",
+                "color": "#a6ea53"
+            },
+            {
+                "from": "40",
+                "color": "#19e627"
+            },
+            {
+                "from": "60",
+                "color": "#7fd317"
+            },
+            {
+                "from": "70",
+                "color": "#c1750b"
+            },
+            {
+                "from": "90",
+                "color": "#b5260d"
+            }
+        ],
+        "min": 0,
+        "max": "100",
+        "sizeThickness": 16,
+        "sizeGap": 4,
+        "sizeKeyThickness": 8,
+        "styleRounded": true,
+        "styleGlow": false,
+        "className": "",
+        "x": 380,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "f75fca1935054be0",
+        "type": "ui-button",
+        "z": "605f4eb3c18c6bf9",
+        "group": "505582d98569caca",
+        "name": "",
+        "label": "Request for Water",
+        "order": 0,
+        "width": "0",
+        "height": "0",
+        "passthru": false,
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "water",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 370,
+        "y": 440,
+        "wires": [
+            [
+                "031859050502a017",
+                "f24f32488ff2aea0"
+            ]
+        ]
+    },
+    {
+        "id": "a111796c15831f75",
+        "type": "ui-button",
+        "z": "605f4eb3c18c6bf9",
+        "group": "505582d98569caca",
+        "name": "",
+        "label": "Red LED",
+        "order": 0,
+        "width": "3",
+        "height": "1",
+        "passthru": false,
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "red",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 400,
+        "y": 480,
+        "wires": [
+            [
+                "3054ddc509f0c57b"
+            ]
+        ]
+    },
+    {
+        "id": "44526784649314a7",
+        "type": "ui-button",
+        "z": "605f4eb3c18c6bf9",
+        "group": "505582d98569caca",
+        "name": "",
+        "label": "Blue LED",
+        "order": 0,
+        "width": "3",
+        "height": "1",
+        "passthru": false,
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "blue",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 400,
+        "y": 520,
+        "wires": [
+            [
+                "3054ddc509f0c57b"
+            ]
+        ]
+    },
+    {
+        "id": "49446e5ad6f94feb",
+        "type": "link in",
+        "z": "605f4eb3c18c6bf9",
+        "name": "sensor/moisture",
+        "links": [
+            "5acaecb4ba098d89"
+        ],
+        "x": 265,
+        "y": 240,
+        "wires": [
+            [
+                "d81aaa3e17894a19"
+            ]
+        ]
+    },
+    {
+        "id": "197c0360549264b5",
+        "type": "link in",
+        "z": "605f4eb3c18c6bf9",
+        "name": "sensor/capacity",
+        "links": [
+            "5f4b8f84e72002e8"
+        ],
+        "x": 265,
+        "y": 200,
+        "wires": [
+            [
+                "44c021c794096980"
+            ]
+        ]
+    },
+    {
+        "id": "3f2f7f5c999eb077",
+        "type": "ui-button",
+        "z": "605f4eb3c18c6bf9",
+        "group": "505582d98569caca",
+        "name": "",
+        "label": "Green LED",
+        "order": 0,
+        "width": "3",
+        "height": "1",
+        "passthru": false,
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "green",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 390,
+        "y": 560,
+        "wires": [
+            [
+                "3054ddc509f0c57b"
+            ]
+        ]
+    },
+    {
+        "id": "cb61439791364e10",
+        "type": "ui-button",
+        "z": "605f4eb3c18c6bf9",
+        "group": "505582d98569caca",
+        "name": "",
+        "label": "Off LED",
+        "order": 0,
+        "width": "3",
+        "height": "1",
+        "passthru": false,
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "off",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 400,
+        "y": 600,
+        "wires": [
+            [
+                "3054ddc509f0c57b"
+            ]
+        ]
+    },
+    {
+        "id": "3054ddc509f0c57b",
+        "type": "link out",
+        "z": "605f4eb3c18c6bf9",
+        "name": "relay/light",
+        "mode": "link",
+        "links": [
+            "23c3040e38aaab83"
+        ],
+        "x": 545,
+        "y": 540,
+        "wires": []
+    },
+    {
+        "id": "031859050502a017",
+        "type": "link out",
+        "z": "605f4eb3c18c6bf9",
+        "name": "relay/water",
+        "mode": "link",
+        "links": [
+            "6b34f926d483c25e"
+        ],
+        "x": 545,
+        "y": 440,
+        "wires": []
+    },
+    {
+        "id": "78ab08d7654143e5",
+        "type": "ui-notification",
+        "z": "605f4eb3c18c6bf9",
+        "ui": "9a883bc2609897a4",
+        "position": "top right",
+        "colorDefault": true,
+        "color": "#000000",
+        "displayTime": "2",
+        "showCountdown": true,
+        "outputs": 0,
+        "allowDismiss": false,
+        "dismissText": "Close",
+        "raw": false,
+        "className": "",
+        "name": "Water Relay Output",
+        "x": 810,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "f24f32488ff2aea0",
+        "type": "change",
+        "z": "605f4eb3c18c6bf9",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "Requested for water! Please wait for a few seconds.",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 620,
+        "y": 400,
+        "wires": [
+            [
+                "78ab08d7654143e5"
+            ]
+        ]
+    },
+    {
+        "id": "22a198ea3238e0d5",
+        "type": "link in",
+        "z": "605f4eb3c18c6bf9",
+        "name": "sensor/temperature",
+        "links": [
+            "277889ebc0e14fad"
+        ],
+        "x": 265,
+        "y": 280,
+        "wires": [
+            [
+                "8fb9270429e8aa03"
+            ]
+        ]
+    },
+    {
+        "id": "1db7d25416038d6d",
+        "type": "link in",
+        "z": "605f4eb3c18c6bf9",
+        "name": "sensor/humidity",
+        "links": [
+            "96e1b9550b1737a3"
+        ],
+        "x": 265,
+        "y": 320,
+        "wires": [
+            [
+                "24547cf023aa0a9b"
+            ]
+        ]
+    },
+    {
+        "id": "c6828dc63f28fc74",
+        "type": "ui-gauge",
+        "z": "605f4eb3c18c6bf9",
+        "name": "",
+        "group": "937e23260c10c1a6",
+        "order": 0,
+        "width": "3",
+        "height": "5",
+        "gtype": "gauge-34",
+        "gstyle": "needle",
+        "title": "Lux",
+        "units": "lux",
+        "icon": "lightbulb",
+        "prefix": "",
+        "suffix": "",
+        "segments": [
+            {
+                "from": "0",
+                "color": "#d91717"
+            },
+            {
+                "from": "100",
+                "color": "#00ff33"
+            },
+            {
+                "from": "300",
+                "color": "#005fdb"
+            },
+            {
+                "from": "500",
+                "color": "#ffffff"
+            }
+        ],
+        "min": 0,
+        "max": "700",
+        "sizeThickness": 16,
+        "sizeGap": 4,
+        "sizeKeyThickness": 8,
+        "styleRounded": true,
+        "styleGlow": false,
+        "className": "",
+        "x": 370,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "17b47a56b93f9929",
+        "type": "link in",
+        "z": "605f4eb3c18c6bf9",
+        "name": "sensor/lux",
+        "links": [
+            "8715f9f676a18c80"
+        ],
+        "x": 265,
+        "y": 360,
+        "wires": [
+            [
+                "c6828dc63f28fc74"
+            ]
+        ]
+    },
+    {
+        "id": "d81aaa3e17894a19",
+        "type": "ui-gauge",
+        "z": "605f4eb3c18c6bf9",
+        "name": "",
+        "group": "937e23260c10c1a6",
+        "order": 0,
+        "width": "3",
+        "height": "5",
+        "gtype": "gauge-34",
+        "gstyle": "needle",
+        "title": "Moisture",
+        "units": " percent",
+        "icon": "leaf",
+        "prefix": "",
+        "suffix": "",
+        "segments": [
+            {
+                "from": "0",
+                "color": "#d65c5c"
+            },
+            {
+                "from": "5",
+                "color": "#ba7b0d"
+            },
+            {
+                "from": "10",
+                "color": "#a6ea53"
+            },
+            {
+                "from": "20",
+                "color": "#19e627"
+            },
+            {
+                "from": "50",
+                "color": "#7fd317"
+            },
+            {
+                "from": "70",
+                "color": "#c1750b"
+            },
+            {
+                "from": "90",
+                "color": "#b5260d"
+            }
+        ],
+        "min": 0,
+        "max": "100",
+        "sizeThickness": 16,
+        "sizeGap": 4,
+        "sizeKeyThickness": 8,
+        "styleRounded": true,
+        "styleGlow": false,
+        "className": "",
+        "x": 380,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "07644e22814738a1",
+        "type": "ui-markdown",
+        "z": "667d120e171461ba",
+        "group": "e19e37a578398e43",
+        "name": "",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "content": "# Historical Data\n\nThis page contains _past_ information about the sensor data.",
+        "className": "",
+        "x": 390,
+        "y": 120,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "b9046319d45705ab",
+        "type": "link in",
+        "z": "667d120e171461ba",
+        "name": "sensor/moisture",
+        "links": [
+            "5acaecb4ba098d89"
+        ],
+        "x": 275,
+        "y": 200,
+        "wires": [
+            [
+                "1ea54ada4286e574"
+            ]
+        ]
+    },
+    {
+        "id": "5e2b11e8f17e558f",
+        "type": "link in",
+        "z": "667d120e171461ba",
+        "name": "sensor/temperature",
+        "links": [
+            "277889ebc0e14fad"
+        ],
+        "x": 275,
+        "y": 240,
+        "wires": [
+            [
+                "eb0f29b6ec843993"
+            ]
+        ]
+    },
+    {
+        "id": "54f8c242ebde5c74",
+        "type": "link in",
+        "z": "667d120e171461ba",
+        "name": "sensor/humidity",
+        "links": [
+            "96e1b9550b1737a3"
+        ],
+        "x": 275,
+        "y": 280,
+        "wires": [
+            [
+                "8d50c39f488e80a3"
+            ]
+        ]
+    },
+    {
+        "id": "670d8459ff47e6ab",
+        "type": "link in",
+        "z": "667d120e171461ba",
+        "name": "sensor/lux",
+        "links": [
+            "8715f9f676a18c80"
+        ],
+        "x": 275,
+        "y": 320,
+        "wires": [
+            [
+                "9447f248709b8d6e"
+            ]
+        ]
+    },
+    {
+        "id": "605616909ac0f97c",
+        "type": "link in",
+        "z": "667d120e171461ba",
+        "name": "sensor/distance",
+        "links": [
+            "5f4b8f84e72002e8"
+        ],
+        "x": 275,
+        "y": 160,
+        "wires": [
+            [
+                "4548c91eb8fe1096"
+            ]
+        ]
+    },
+    {
+        "id": "9447f248709b8d6e",
+        "type": "ui-chart",
+        "z": "667d120e171461ba",
+        "group": "6763788d20d8c005",
+        "name": "",
+        "label": "Lux",
+        "order": 2,
+        "chartType": "line",
+        "category": "topic",
+        "categoryType": "msg",
+        "xAxisProperty": "",
+        "xAxisPropertyType": "msg",
+        "xAxisType": "time",
+        "yAxisProperty": "",
+        "ymin": "",
+        "ymax": "",
+        "action": "append",
+        "pointShape": "circle",
+        "pointRadius": 4,
+        "showLegend": false,
+        "removeOlder": 1,
+        "removeOlderUnit": "3600",
+        "removeOlderPoints": "",
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "width": 6,
+        "height": 8,
+        "className": "",
+        "x": 370,
+        "y": 320,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "8d50c39f488e80a3",
+        "type": "ui-chart",
+        "z": "667d120e171461ba",
+        "group": "6763788d20d8c005",
+        "name": "",
+        "label": "Humidity",
+        "order": 3,
+        "chartType": "line",
+        "category": "topic",
+        "categoryType": "msg",
+        "xAxisProperty": "",
+        "xAxisPropertyType": "msg",
+        "xAxisType": "time",
+        "yAxisProperty": "",
+        "ymin": "",
+        "ymax": "",
+        "action": "append",
+        "pointShape": "circle",
+        "pointRadius": 4,
+        "showLegend": false,
+        "removeOlder": 1,
+        "removeOlderUnit": "3600",
+        "removeOlderPoints": "",
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "width": 6,
+        "height": 8,
+        "className": "",
+        "x": 380,
+        "y": 280,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "eb0f29b6ec843993",
+        "type": "ui-chart",
+        "z": "667d120e171461ba",
+        "group": "6763788d20d8c005",
+        "name": "",
+        "label": "Temperature",
+        "order": 4,
+        "chartType": "line",
+        "category": "topic",
+        "categoryType": "msg",
+        "xAxisProperty": "",
+        "xAxisPropertyType": "msg",
+        "xAxisType": "time",
+        "yAxisProperty": "",
+        "ymin": "",
+        "ymax": "",
+        "action": "append",
+        "pointShape": "circle",
+        "pointRadius": 4,
+        "showLegend": false,
+        "removeOlder": 1,
+        "removeOlderUnit": "3600",
+        "removeOlderPoints": "",
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "width": 6,
+        "height": 8,
+        "className": "",
+        "x": 390,
+        "y": 240,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "1ea54ada4286e574",
+        "type": "ui-chart",
+        "z": "667d120e171461ba",
+        "group": "6763788d20d8c005",
+        "name": "",
+        "label": "Moisture",
+        "order": 5,
+        "chartType": "line",
+        "category": "topic",
+        "categoryType": "msg",
+        "xAxisProperty": "",
+        "xAxisPropertyType": "msg",
+        "xAxisType": "time",
+        "yAxisProperty": "",
+        "ymin": "",
+        "ymax": "",
+        "action": "append",
+        "pointShape": "circle",
+        "pointRadius": 4,
+        "showLegend": false,
+        "removeOlder": 1,
+        "removeOlderUnit": "3600",
+        "removeOlderPoints": "",
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "width": 6,
+        "height": 8,
+        "className": "",
+        "x": 380,
+        "y": 200,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "4548c91eb8fe1096",
+        "type": "ui-chart",
+        "z": "667d120e171461ba",
+        "group": "6763788d20d8c005",
+        "name": "",
+        "label": "Capacity",
+        "order": 1,
+        "chartType": "line",
+        "category": "topic",
+        "categoryType": "msg",
+        "xAxisProperty": "",
+        "xAxisPropertyType": "msg",
+        "xAxisType": "time",
+        "yAxisProperty": "",
+        "ymin": "",
+        "ymax": "",
+        "action": "append",
+        "pointShape": "circle",
+        "pointRadius": 4,
+        "showLegend": false,
+        "removeOlder": 1,
+        "removeOlderUnit": "3600",
+        "removeOlderPoints": "",
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "width": 6,
+        "height": 8,
+        "className": "",
+        "x": 380,
+        "y": 160,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "4a4f21453794d028",
+        "type": "ui-switch",
+        "z": "acc91d28b8f59fed",
+        "name": "",
+        "label": "Manual Lighting",
+        "group": "b99e83129ea518cd",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "topic": "topic",
+        "topicType": "msg",
+        "style": "",
+        "className": "",
+        "onvalue": "manual",
+        "onvalueType": "str",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "auto",
+        "offvalueType": "str",
+        "officon": "",
+        "offcolor": "",
+        "x": 360,
+        "y": 180,
+        "wires": [
+            [
+                "05e307ebc4128b96"
+            ]
+        ]
+    },
+    {
+        "id": "05e307ebc4128b96",
+        "type": "link out",
+        "z": "acc91d28b8f59fed",
+        "name": "manual-lighting",
+        "mode": "link",
+        "links": [
+            "23c3040e38aaab83"
+        ],
+        "x": 495,
+        "y": 180,
+        "wires": []
+    }
+]
