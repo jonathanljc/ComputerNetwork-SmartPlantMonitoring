@@ -1,5 +1,10 @@
 # 🌱 Smart Plant Monitoring System
 
+<p align="center" style="display: flex; justify-content: center; gap: 10px;">
+  <img src="https://github.com/jonathanljc/ComputerNetwork-SmartPlantMonitoring/blob/main/project%20prototype.png" alt="Project Prototype Image 1" style="width: 500px; height: 300px; object-fit: cover;">
+  <img src="https://github.com/jonathanljc/ComputerNetwork-SmartPlantMonitoring/blob/main/project%20prototype%202.png" alt="Project Prototype Image 2" style="width: 500px; height: 300px; object-fit: cover;">
+</p>
+
 ## 📄 Project Overview
 The **Smart Plant Monitoring System** is an IoT-based project developed for **INF1006 Computer Networks**. It uses **Raspberry Pi 4**, **MQTT**, and **Node-RED** to monitor and control environmental conditions for plants. The system provides real-time data via a **web dashboard** and allows automated actions like watering and controlling LED light intensity.
 
