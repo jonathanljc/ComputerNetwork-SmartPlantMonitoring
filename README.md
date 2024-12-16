@@ -10,7 +10,8 @@ The **Smart Plant Monitoring System** is an IoT-based project developed for **IN
 ### 🛠 Monitoring
 - **Soil Moisture Level**  
 - **UV Light Intensity**  
-- **Temperature & Humidity**  
+- **Temperature & Humidity**
+- **Water Tank Level**  
 
 ### 💡 Dashboard
 - Real-time monitoring via Node-RED web dashboard.  
