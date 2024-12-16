@@ -80,15 +80,15 @@ You can view the project poster here:
 
 **Group 19**:  
 
-| **Name**          | **ID**       | **Email**                          |
-|-------------------|--------------|------------------------------------|
-| Jonathan Lim      | 2300923      | 2300923@sit.singaporetech.edu.sg   |
-| Felix Chang       | 2301105      | 2301105@sit.singaporetech.edu.sg   |
-| Chew Liang Zhi    | 2300948      | 2300948@sit.singaporetech.edu.sg   |
-| Ryan Oh           | 2300916      | 2300916@sit.singaporetech.edu.sg   |
-| Darryl Ong        | 2301402      | 2301402@sit.singaporetech.edu.sg   |
-| James Gonzales    | 2301136      | 2301136@sit.singaporetech.edu.sg   |
+| **Name**          | **ID**       | **Email**                          | **Workload**                                  |
+|-------------------|--------------|------------------------------------|----------------------------------------------|
+| Jonathan Lim      | 2300923      | 2300923@sit.singaporetech.edu.sg   | Client Team: Sensors & Motors                |
+| Felix Chang       | 2301105      | 2301105@sit.singaporetech.edu.sg   | Client Team: Sensors & Motors                |
+| Chew Liang Zhi    | 2300948      | 2300948@sit.singaporetech.edu.sg   | Server Team: Dashboard & Data Parsing        |
+| Ryan Oh           | 2300916      | 2300916@sit.singaporetech.edu.sg   | Server Team: Dashboard & Data Parsing        |
+| Darryl Ong        | 2301402      | 2301402@sit.singaporetech.edu.sg   | Client Team: Sensors & Motors                |
+| James Gonzales    | 2301136      | 2301136@sit.singaporetech.edu.sg   | Server Team: Dashboard & Data Parsing        |
 
----
+
 
 
