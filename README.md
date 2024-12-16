@@ -64,7 +64,14 @@ For detailed installation instructions, refer to the respective README files:
 ## 📹 Demonstration Video
 
 Watch the project demonstration here:  
-[**Smart Plant Monitoring System Demo**](#)
+[**Smart Plant Monitoring System Demo**](https://youtu.be/wu9qdf4W0Dc)
+
+---
+
+## 🖼️ Project Poster
+
+You can view the project poster here:  
+[**Smart Plant Monitoring Poster**](https://github.com/jonathanljc/ComputerNetwork-SmartPlantMonitoring/blob/main/Computer%20Networks%20Poster.pdf)
 
 ---
 
